@@ -3,39 +3,14 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-        enum: ['manager', 'worker'],
-        default: 'worker'
-    },
-
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ['manager', 'worker'], default: 'worker' },
     // only if role==='manager'
-    accessKey: {
-        type: String,
-        unique: true,
-        sparse: true
-    },
-
+    accessKey: { type: String, unique: true, sparse: true },
     // only if role==='worker'
-    manager: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
+    manager: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 },
 {
     timestamps: true
@@ -43,18 +18,14 @@ const userSchema = new mongoose.Schema({
 
 // hash passwords with bcrypt
 userSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) return next();
-    const salt = await bcrypt.genSalt(10);
+    if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt);
-    next();
-});
-
-//generates manager access key
-userSchema.pre('save', function(next) {
-    if (this.role ==='manager' && !this.accessKey) {
+    }
+    if (this.isNew && this.role === 'manager') {
         this.accessKey = crypto.randomBytes(16).toString('hex');
     }
-    next();
+    next()
 });
 
 //method for managers to "rotate" access key
