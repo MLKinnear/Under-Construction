@@ -20,8 +20,11 @@ function App() {
           <Route path="/dashboard" element={
             <PrivateRoute>
               <Dashboard />
-            </PrivateRoute>
-          } />
+            </PrivateRoute>} />
+          {/* <Route path="/client/:id" element={
+            <PrivateRoute>
+              <ClientDetail />
+            </PrivateRoute>} /> */}
         </Routes>
       </BrowserRouter>
     </div>
