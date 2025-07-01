@@ -29,8 +29,9 @@ export default function ClientForm({ onSuccess, onCancel }) {
             );
             onSuccess(data);
         } catch (err) {
-            console.error(err);
-            alert('Failed to save client!');
+            console.error('Create client failed:', err.response?.data || err);
+            const msg = err.response?.data?.error || JSON.stringify(err.response?.data) || 'Failed to save client!';
+            alert(msg);
         } finally {
             setSaving(false);
         }

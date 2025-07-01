@@ -1,0 +1,215 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+export default function ClientDetail() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const [client, setClient] = useState(null);
+    const [formData, setFormData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [editing, setEditing] = useState(false);
+
+    useEffect(() => {
+        async function loadClient() {
+            try{
+                const token = localStorage.getItem('token');
+                const { data } = await axios.get(`/api/clients/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setClient(data);
+                setFormData({
+                    name: data.name,
+                    phone: data.phone,
+                    address: { ...data.address }
+                });
+            } catch (err) {
+                console.error(err);
+                alert('Could not load client');
+                navigate('/dashboard');
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadClient();
+    }, [id, navigate]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        const parts = name.split('.');
+        if (parts.length === 2) {
+            const [parent, key] = parts;
+            setFormData( fd => ({...fd,[parent]:{...fd[parent], [key]: value}}));
+        } else {
+            setFormData(fd => ({...fd, [name]: value}));
+        }
+    };
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        setSaving(true);
+        try {
+            const token = localStorage.getItem('token');
+            const { data: updated } = await axios.put(`/api/clients/${id}`,
+                formData,
+                { headers: { Authorization: `Bearer ${token}`}
+            });
+            setClient(updated);
+            setFormData({
+                name: updated.name,
+                phone: updated.phone,
+                address: {...updated.address}
+            });
+            setEditing(false);
+        } catch (err) {
+            console.error(err);
+            alert('Failed to save changes');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm('Delete this client forever?')) return;
+        try {
+            const token = localStorage.getItem('token');
+            await axios.delete(`/api/clients/${id}`,
+                { headers: { Authorization: `Bearer ${token}`}});
+            navigate('/dashboard');
+        } catch (err) {
+            console.error(err);
+            alert('Failed to delete client');
+        }
+    };
+
+    if (loading) return <p className='p-6'>Loading client...</p>
+
+    return (
+        <div className="container mx-auto p-6">
+            {editing ? (
+                <form onSubmit={handleSave} className="space-y-4 max-w-md">
+                <h2 className="text-2xl">Edit Client</h2>
+
+                <label className="block">
+                    <span>Name</span>
+                    <input
+                    name="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-2 border rounded mt-1"
+                    />
+                </label>
+
+                <label className="block">
+                    <span>Phone</span>
+                    <input
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-2 border rounded mt-1"
+                    />
+                </label>
+
+                <label className="block">
+                    <span>Street</span>
+                    <input
+                    name="address.street"
+                    type="text"
+                    value={formData.address.street || ''}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded mt-1"
+                    />
+                </label>
+
+                <label className="block">
+                    <span>City</span>
+                    <input
+                    name="address.city"
+                    type="text"
+                    value={formData.address.city || ''}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded mt-1"
+                    />
+                </label>
+
+                <label className="block">
+                    <span>Postal Code</span>
+                    <input
+                    name="address.postalCode"
+                    type="text"
+                    value={formData.address.postalCode || ''}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded mt-1"
+                    />
+                </label>
+
+                <label className="block">
+                    <span>Country</span>
+                    <input
+                    name="address.country"
+                    type="text"
+                    value={formData.address.country || ''}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded mt-1"
+                    />
+                </label>
+
+                <div className="flex space-x-2">
+                    <button
+                    type="button"
+                    onClick={() => {
+                        setFormData({
+                        name: client.name,
+                        phone: client.phone,
+                        address: { ...client.address }
+                        });
+                        setEditing(false);
+                    }}
+                    disabled={saving}
+                    className="px-4 py-2 border rounded"
+                    >
+                    Cancel
+                    </button>
+                    <button
+                    type="submit"
+                    disabled={saving}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                    {saving ? 'Saving…' : 'Save'}
+                    </button>
+                </div>
+                </form>
+            ) : (
+                <div className="space-y-4 max-w-md">
+                <h2 className="text-2xl">{client.name}</h2>
+                <p><strong>Phone:</strong> {client.phone}</p>
+                <p><strong>Address:</strong></p>
+                <p className="ml-4">{client.address.street}</p>
+                <p className="ml-4">{client.address.city}, {client.address.postalCode}</p>
+                <p className="ml-4">{client.address.country}</p>
+
+                <div className="flex space-x-2 pt-4">
+                    <button
+                    onClick={() => setEditing(true)}
+                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                    >
+                    Edit
+                    </button>
+                    <button
+                    onClick={handleDelete}
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                    >
+                    Delete
+                    </button>
+                </div>
+                </div>
+            )}
+        </div>
+  );
+}

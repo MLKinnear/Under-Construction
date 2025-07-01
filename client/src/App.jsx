@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
+import ClientDetail from './pages/ClientDetail'
 import PrivateRoute from './components/PrivateRoute'
 import logo from './assets/underconstructionlogo.png'
 
@@ -21,10 +22,10 @@ function App() {
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>} />
-          {/* <Route path="/client/:id" element={
+          <Route path="/client/:id" element={
             <PrivateRoute>
-              <ClientDetail />
-            </PrivateRoute>} /> */}
+              <ClientDetail/>
+            </PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </div>
