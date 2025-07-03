@@ -87,129 +87,129 @@ export default function ClientDetail() {
     if (loading) return <p className='p-6'>Loading client...</p>
 
     return (
-        <div className="container mx-auto p-6">
-            {editing ? (
-                <form onSubmit={handleSave} className="space-y-4 max-w-md">
-                <h2 className="text-2xl">Edit Client</h2>
+        <div>
+            <h1 className='mb-2 text-center text-4xl'>Client Details</h1>
+            <div className="flex justify-center p-6">
+                {editing ? (
+                    <form onSubmit={handleSave} className="m-8 p-5 shadow-lg rounded-lg space-y-4 max-w-md bg-white">
+                    <h2 className="text-2xl">Edit Client</h2>
 
-                <label className="block">
-                    <span>Name</span>
-                    <input
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-2 border rounded mt-1"
-                    />
-                </label>
+                    <label className="block">
+                        <span>Name</span>
+                        <input
+                        name="name"
+                        type="text"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
 
-                <label className="block">
-                    <span>Phone</span>
-                    <input
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-2 border rounded mt-1"
-                    />
-                </label>
+                    <label className="block">
+                        <span>Phone</span>
+                        <input
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
 
-                <label className="block">
-                    <span>Street</span>
-                    <input
-                    name="address.street"
-                    type="text"
-                    value={formData.address.street || ''}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded mt-1"
-                    />
-                </label>
+                    <label className="block">
+                        <span>Street</span>
+                        <input
+                        name="address.street"
+                        type="text"
+                        value={formData.address.street || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
 
-                <label className="block">
-                    <span>City</span>
-                    <input
-                    name="address.city"
-                    type="text"
-                    value={formData.address.city || ''}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded mt-1"
-                    />
-                </label>
+                    <label className="block">
+                        <span>City</span>
+                        <input
+                        name="address.city"
+                        type="text"
+                        value={formData.address.city || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
 
-                <label className="block">
-                    <span>Postal Code</span>
-                    <input
-                    name="address.postalCode"
-                    type="text"
-                    value={formData.address.postalCode || ''}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded mt-1"
-                    />
-                </label>
+                    <label className="block">
+                        <span>Postal Code</span>
+                        <input
+                        name="address.postalCode"
+                        type="text"
+                        value={formData.address.postalCode || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
 
-                <label className="block">
-                    <span>Country</span>
-                    <input
-                    name="address.country"
-                    type="text"
-                    value={formData.address.country || ''}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded mt-1"
-                    />
-                </label>
+                    <label className="block">
+                        <span>Country</span>
+                        <input
+                        name="address.country"
+                        type="text"
+                        value={formData.address.country || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
 
-                <div className="flex space-x-2">
-                    <button
-                    type="button"
-                    onClick={() => {
-                        setFormData({
-                        name: client.name,
-                        phone: client.phone,
-                        address: { ...client.address }
-                        });
-                        setEditing(false);
-                    }}
-                    disabled={saving}
-                    className="px-4 py-2 border rounded"
-                    >
-                    Cancel
-                    </button>
-                    <button
-                    type="submit"
-                    disabled={saving}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    >
-                    {saving ? 'Saving…' : 'Save'}
-                    </button>
-                </div>
-                </form>
-            ) : (
-                <div className="space-y-4 max-w-md">
-                <h2 className="text-2xl">{client.name}</h2>
-                <p><strong>Phone:</strong> {client.phone}</p>
-                <p><strong>Address:</strong></p>
-                <p className="ml-4">{client.address.street}</p>
-                <p className="ml-4">{client.address.city}, {client.address.postalCode}</p>
-                <p className="ml-4">{client.address.country}</p>
+                    <div className="flex space-x-2">
+                        <button type="button"
+                            onClick={() => {
+                                setFormData({
+                                name: client.name,
+                                phone: client.phone,
+                                address: { ...client.address }
+                                });
+                                setEditing(false);
+                            }} disabled={saving}
+                            className="px-4 py-2 border rounded">
+                            Cancel
+                        </button>
 
-                <div className="flex space-x-2 pt-4">
-                    <button
-                    onClick={() => setEditing(true)}
-                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                    >
-                    Edit
-                    </button>
-                    <button
-                    onClick={handleDelete}
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                    >
-                    Delete
-                    </button>
-                </div>
-                </div>
-            )}
+                        <button type="submit"
+                            disabled={saving}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            {saving ? 'Saving…' : 'Save'}
+                        </button>
+
+                    </div>
+                    </form>
+                ) : (
+                    <div className="m-8 p-8 shadow-lg rounded-lg space-y-4 max-w-md bg-white">
+                    <h2 className="text-2xl">{client.name}</h2>
+                    <p><strong>Phone:</strong> {client.phone}</p>
+                    <p><strong>Address:</strong></p>
+                    <p className="ml-4">{client.address.street}</p>
+                    <p className="ml-4">{client.address.city}, {client.address.postalCode}</p>
+                    <p className="ml-4">{client.address.country}</p>
+
+                    <div className="flex space-x-2 pt-4">
+                        <button
+                        onClick={() => setEditing(true)}
+                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                        >
+                        Edit
+                        </button>
+                        <button
+                        onClick={handleDelete}
+                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                        >
+                        Delete
+                        </button>
+                    </div>
+                    </div>
+                )}
+            </div>
         </div>
   );
 }

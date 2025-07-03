@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 // protect verifies JWT and attaches user to req.user
 exports.protect = async (req, res, next) => {
-    let token;
+    let token = null;
     //Pulls token from Authorization header ("Bearer <token>")
     if (
         req.headers.authorization && req.headers.authorization.startsWith('Bearer ')
@@ -17,16 +17,13 @@ exports.protect = async (req, res, next) => {
         //Verify and decode
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         //Fetches User
-        const user = await User.findById(decoded.id).select('-password');
-        if (!user){
-            return res
-            .status(401).json({ msg: 'Not authorized: user does not exist.'});
-        }
-        //Attaches to request
-        req.user = user;
+        req.user = await User.findById(decoded.id).select('-password');
         next();
     } catch (err) {
         console.error('Auth protect error:', err);
+        if (err.name === 'TokenExpiredError'){
+            return res.status(401).json({ error: 'Session expired' });
+        }
         res.status(401).json({ msg: 'Not authorized: token failed.'});
     }
 };

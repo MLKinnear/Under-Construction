@@ -39,7 +39,7 @@ exports.register = async (req, res) => {
 
         const user = await User.create({ name, email, password, role, manager: managerId });
         const token = signToken(user);
-        user.password = undefined;
+        // user.password = undefined;
         return res.status(201).json({
             user: {
                 id: user._id,
@@ -65,7 +65,8 @@ exports.register = async (req, res) => {
 // all can access
 exports.login = async (req, res) => {
     try{
-        const { email, password } = req.body;
+        const { email, password: rawPassword } = req.body;
+        const password = rawPassword.trim()
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials'});
