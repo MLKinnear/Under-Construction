@@ -68,6 +68,18 @@ export default function ClientForm({ onSuccess, onCancel }) {
                 </label>
 
                 <label className="block">
+                    <span>Email</span>
+                    <input
+                        name="email"
+                        type='text'
+                        value={client.email}
+                        onChange={handleChange}
+                        required
+                        className='w-full p-2 border rounded mt-1'
+                    />
+                </label>
+
+                <label className="block">
                     <span>Street</span>
                     <input
                         name="address.street"
@@ -97,6 +109,18 @@ export default function ClientForm({ onSuccess, onCancel }) {
                         name="address.postalCode"
                         type='text'
                         value={client.address.postalCode}
+                        onChange={handleChange}
+                        required
+                        className='w-full p-2 border rounded mt-1'
+                    />
+                </label>
+
+                <label className="block">
+                    <span>Province</span>
+                    <input
+                        name="address.province"
+                        type='text'
+                        value={client.address.province}
                         onChange={handleChange}
                         required
                         className='w-full p-2 border rounded mt-1'

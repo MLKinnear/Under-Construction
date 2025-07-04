@@ -23,6 +23,7 @@ export default function ClientDetail() {
                 setFormData({
                     name: data.name,
                     phone: data.phone,
+                    email: data.email,
                     address: { ...data.address }
                 });
             } catch (err) {
@@ -60,6 +61,7 @@ export default function ClientDetail() {
             setFormData({
                 name: updated.name,
                 phone: updated.phone,
+                email: updated.email,
                 address: {...updated.address}
             });
             setEditing(false);
@@ -119,6 +121,18 @@ export default function ClientDetail() {
                     </label>
 
                     <label className="block">
+                        <span>Email</span>
+                        <input
+                        name="email"
+                        type="text"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
+
+                    <label className="block">
                         <span>Street</span>
                         <input
                         name="address.street"
@@ -152,6 +166,17 @@ export default function ClientDetail() {
                     </label>
 
                     <label className="block">
+                        <span>Province</span>
+                        <input
+                        name="address.province"
+                        type="text"
+                        value={formData.address.province || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded mt-1"
+                        />
+                    </label>
+
+                    <label className="block">
                         <span>Country</span>
                         <input
                         name="address.country"
@@ -168,6 +193,7 @@ export default function ClientDetail() {
                                 setFormData({
                                 name: client.name,
                                 phone: client.phone,
+                                email: client.email,
                                 address: { ...client.address }
                                 });
                                 setEditing(false);
@@ -188,9 +214,11 @@ export default function ClientDetail() {
                     <div className="m-8 p-8 shadow-lg rounded-lg space-y-4 max-w-md bg-white">
                     <h2 className="text-2xl">{client.name}</h2>
                     <p><strong>Phone:</strong> {client.phone}</p>
+                    <p><strong>Email:</strong> {client.email}</p>
                     <p><strong>Address:</strong></p>
                     <p className="ml-4">{client.address.street}</p>
                     <p className="ml-4">{client.address.city}, {client.address.postalCode}</p>
+                    <p className="ml-4">{client.address.province}</p>
                     <p className="ml-4">{client.address.country}</p>
 
                     <div className="flex space-x-2 pt-4">
