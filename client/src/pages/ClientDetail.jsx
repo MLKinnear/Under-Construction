@@ -253,12 +253,6 @@ export default function ClientDetail() {
                     <div>
                     <h2>{client.name}’s Work Orders</h2>
                     <Link to={`create`} className='px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600'>Add Work Order</Link>
-                    {/* <Link
-                        to={`/clients/${id}/create`}
-                        className="inline-block text-blue-500 hover:underline"
-                        >
-                        + Create Work Order
-                    </Link> */}
                     { ordersLoading ? <p>Loading work orders…</p> : orders.length === 0 ? <p>No work orders yet.</p>
                         :<div className="grid grid-cols-3 gap-4 mt-4">
                             {orders.map(wo => (

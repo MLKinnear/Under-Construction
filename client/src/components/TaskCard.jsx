@@ -1,0 +1,109 @@
+import React, { useState, useEffect } from "react";
+
+export default function TaskCard({
+    task,
+    workers = [],
+    onSave,
+    onRemove,
+    readOnly
+}) {
+
+    const [localTask, setLocalTask] = useState(task);
+
+    useEffect(() => {
+        setLocalTask(task);
+    }, [task]);
+
+    const isDirty = JSON.stringify(localTask) !== JSON.stringify(task);
+
+    const handleFieldChange = (field, value) => {
+        setLocalTask(prev => ({ ...prev, [field]: value }));
+    };
+
+    return (
+        <div className="border p-4 rounded bg-white mb-4">
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label>Description</label>
+                    <input
+                        className="w-full"
+                        disabled={readOnly}
+                        value={localTask.description}
+                        onChange={e => handleFieldChange('description', e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Time Estimate (hrs)</label>
+                    <input
+                        type="number"
+                        className="w-full"
+                        disabled={readOnly}
+                        value={localTask.timeEstimate}
+                        onChange={e => handleFieldChange('timeEstimate', e.target.value)}
+                    />
+                </div>
+            </div>
+
+            <div className="mt-2">
+                <label>Note</label>
+                <textarea
+                    className="w-full"
+                    disabled={readOnly}
+                    value={localTask.notes || ''}
+                    onChange={e => handleFieldChange('notes', e.target.value)}
+                    />
+            </div>
+
+            <div className="flex gap-4 mt-2">
+                <div>
+                    <label>Status</label>
+                    <select
+                        className="block"
+                        disabled={readOnly}
+                        value={localTask.state}
+                        onChange={e => handleFieldChange('state', e.target.value)}
+                    >
+                        {['OPEN','ON HOLD','IN PROGRESS','IN REVIEW','COMPLETED']
+                        .map(s => <option key={s}>{s}</option>)}
+                    </select>
+                </div>
+                <div>
+                    <label>Assign to</label>
+                    <select
+                        className="block"
+                        disabled={readOnly}
+                        value={localTask.assignedTo || ''}
+                        onChange={e => handleFieldChange('assignedTo', e.target.value || null)}
+                    >
+                        <option value="">— Unassigned —</option>
+                        {workers.map(w =>
+                        <option key={w._id} value={w._id}>{w.name}</option>
+                        )}
+                    </select>
+                </div>
+            </div>
+
+            {!readOnly && (
+            <div className="flex gap-2 mt-4">
+            <button
+                onClick={() => onSave(localTask)}
+                disabled={!isDirty}
+                className={`px-4 py-1 rounded text-white ${isDirty ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}>
+                Save
+            </button>
+            <button
+                onClick={() => setLocalTask(task)}
+                disabled={!isDirty}
+                className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
+                Cancel
+            </button>
+            <button
+                onClick={onRemove}
+                className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                Remove
+            </button>
+            </div>
+        )}
+        </div>
+    )
+}

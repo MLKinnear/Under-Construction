@@ -4,7 +4,14 @@ const { Schema, Types } = mongoose;
 
 const TaskSchema = new Schema ({
     description: { type: String, required: true },
-    timeEstimate: { type: Number, required: true }
+    timeEstimate: { type: Number, required: true },
+    notes: { type: String},
+    state: {
+        type: String,
+        enum: ['OPEN', 'ON HOLD', 'IN PROGRESS', 'IN REVIEW', 'COMPLETED'],
+        default: 'OPEN'
+        },
+    assignedTo: { type: Types.ObjectId, ref: 'User' }
 }, { _id: false }, { timestamps: true });
 
 const WorkOrderSchema = new Schema ({
@@ -25,7 +32,7 @@ const WorkOrderSchema = new Schema ({
     state: {
         type: String,
         enum: ['OPEN', 'ON HOLD', 'IN PROGRESS', 'IN REVIEW', 'COMPLETED'],
-        default: 'open'
+        default: 'OPEN'
     }
 }, { timestamps: true });
 

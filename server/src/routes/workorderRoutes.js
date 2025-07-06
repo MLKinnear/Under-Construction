@@ -9,6 +9,7 @@ const {
     getOneWO,
     updateWO,
     addTask,
+    updateTask,
     removeTask
 } = require('../controllers/workorderController');
 
@@ -38,10 +39,13 @@ router.get('/:id', protect, getOneWO);
 // PUT Update an existing work order
 router.put('/:id', protect, updateWO);
 
-// POST /api/workorders/:id/tasks
+// POST Adds a tasl
 router.post('/:id/tasks', protect, addTask);
 
-// DELETE /api/workorders/:id/task/:index
+// PUT Update a specific task
+router.put('/:id/tasks/:taskIndex', protect, updateTask);
+
+// DELETE Deletes a specific task
 router.delete('/:id/tasks/:taskIndex', protect, removeTask);
 
 module.exports = router;

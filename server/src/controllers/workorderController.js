@@ -84,6 +84,27 @@ exports.addTask = async (req, res, next) => {
     }
 };
 
+exports.updateTask = async (req, res, next) => {
+    try{
+        const { description, timeEstimate, notes, state, assignedTo } = req.body;
+        const idx = parseInt(req.params.taskIndex, 10);
+        const wo = await WorkOrder.findById(req.params.id);
+        if (!wo) return res.status(404).json({ msg: 'Work order not found'});
+
+        const task = wo.tasks[idx];
+        task.description = description;
+        task.timeEstimate = timeEstimate;
+        task.notes = notes;
+        task.state = state;
+        task.assignedTo = assignedTo || null;
+
+        await wo.save();
+        return res.json(wo);
+    }catch (err) {
+        next(err);
+    }
+};
+
 exports.removeTask = async (req, res, next) => {
     try{
         const idx = parseInt(req.params.taskIndex, 10);
