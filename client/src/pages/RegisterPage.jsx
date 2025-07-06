@@ -127,7 +127,7 @@ export default function RegisterPage() {
                 </div>
                 <Link to='/'>
                     <div className='flex justify-center m-2'>
-                        <p>Sign in?</p>
+                        <p>Login?</p>
                     </div>
                 </Link>
 

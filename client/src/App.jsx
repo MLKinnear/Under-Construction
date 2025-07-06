@@ -4,7 +4,10 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
+import ClientsPage from './pages/ClientsPage'
 import ClientDetail from './pages/ClientDetail'
+import WorkOrdersPage from './pages/WorkOrdersPage'
+import WorkOrderDetailPage from './pages/WorkOrderDetailPage'
 import CreateWorkOrder from './pages/CreateWorkOrder'
 import ProfilePage from './pages/ProfilePage'
 import PrivateRoute from './components/PrivateRoute'
@@ -40,15 +43,19 @@ function App() {
             <PrivateRoute>
               <ProfilePage/>
             </PrivateRoute>} />
-          {/* <Route path="/clients" element={
+           <Route path="/clients" element={
             <PrivateRoute>
-              <Dashboard/>
+              <ClientsPage/>
             </PrivateRoute>} />
-          <Route path="/work-orders" element={
+          <Route path="/workorders" element={
             <PrivateRoute>
-              <div>WorkOrdersPage</div>
+              <WorkOrdersPage/>
             </PrivateRoute>} />
-          <Route path="/tasks" element={
+            <Route path="/workorders/:id" element={
+            <PrivateRoute>
+              <WorkOrderDetailPage/>
+            </PrivateRoute>} />
+          {/*<Route path="/tasks" element={
             <PrivateRoute>
               <div>TasksPage</div>
             </PrivateRoute>} /> */}

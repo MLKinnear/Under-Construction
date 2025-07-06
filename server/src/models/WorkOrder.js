@@ -5,7 +5,7 @@ const { Schema, Types } = mongoose;
 const TaskSchema = new Schema ({
     description: { type: String, required: true },
     timeEstimate: { type: Number, required: true }
-}, { _id: false });
+}, { _id: false }, { timestamps: true });
 
 const WorkOrderSchema = new Schema ({
     client: { type: Types.ObjectId, ref: 'Client', required: true },

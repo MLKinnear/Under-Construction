@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
+const WorkOrder = require('../models/WorkOrder');
 const {
     getNextNumber,
     createWO,
@@ -10,6 +11,17 @@ const {
     addTask,
     removeTask
 } = require('../controllers/workorderController');
+
+router.get('/', protect, async (req, res) => {
+    try {
+        const orders = await WorkOrder.find({ manager: req. user._id });
+        res.json(orders);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: 'Server error'});
+    }
+});
+
 
 // GET Work Order number before creating
 router.get('/next-number', protect, getNextNumber);
