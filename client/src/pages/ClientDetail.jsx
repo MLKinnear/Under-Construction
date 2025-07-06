@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import WorkOrderCard from '../components/WorkOrderCard';
 
 export default function ClientDetail() {
     const { id } = useParams();
@@ -11,6 +12,8 @@ export default function ClientDetail() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [editing, setEditing] = useState(false);
+    const [orders, setOrders] = useState([]);
+    const [ordersLoading, setOrdersLoading] = useState(true);
 
     useEffect(() => {
         async function loadClient() {
@@ -36,6 +39,16 @@ export default function ClientDetail() {
         }
         loadClient();
     }, [id, navigate]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        axios.get(`/api/workorders/clients/${id}`, {
+            headers: { Authorization: `Bearer ${token}`}
+        })
+        .then(res => setOrders(res.data))
+        .catch(err => console.error('Could not load work order', err))
+        .finally(() => setOrdersLoading(false));
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -211,6 +224,7 @@ export default function ClientDetail() {
                     </div>
                     </form>
                 ) : (
+                    <div>
                     <div className="m-8 p-8 shadow-lg rounded-lg space-y-4 max-w-md bg-white">
                     <h2 className="text-2xl">{client.name}</h2>
                     <p><strong>Phone:</strong> {client.phone}</p>
@@ -234,6 +248,23 @@ export default function ClientDetail() {
                         >
                         Delete
                         </button>
+                    </div>
+                    </div>
+                    <div>
+                    <h2>{client.name}’s Work Orders</h2>
+                    <Link to={`create`} className='px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600'>Add Work Order</Link>
+                    {/* <Link
+                        to={`/clients/${id}/create`}
+                        className="inline-block text-blue-500 hover:underline"
+                        >
+                        + Create Work Order
+                    </Link> */}
+                    { ordersLoading ? <p>Loading work orders…</p> : orders.length === 0 ? <p>No work orders yet.</p>
+                        :<div className="grid grid-cols-3 gap-4 mt-4">
+                            {orders.map(wo => (
+                            <WorkOrderCard key={wo._id} order={wo} />
+                            ))}
+                        </div>}
                     </div>
                     </div>
                 )}

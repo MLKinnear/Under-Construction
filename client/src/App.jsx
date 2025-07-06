@@ -5,6 +5,7 @@ import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
 import ClientDetail from './pages/ClientDetail'
+import CreateWorkOrder from './pages/CreateWorkOrder'
 import ProfilePage from './pages/ProfilePage'
 import PrivateRoute from './components/PrivateRoute'
 import NavBar from './components/NavBar'
@@ -26,10 +27,15 @@ function App() {
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>} />
-          <Route path="/client/:id" element={
+          <Route path="/clients/:id" element={
             <PrivateRoute>
               <ClientDetail/>
             </PrivateRoute>} />
+          <Route path="/clients/:id/create" element={
+            <PrivateRoute>
+              <CreateWorkOrder/>
+            </PrivateRoute>
+          } />
           <Route path="/profile" element={
             <PrivateRoute>
               <ProfilePage/>
