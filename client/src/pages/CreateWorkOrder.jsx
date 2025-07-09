@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import TaskCard from '../components/TaskCard';
+import NewTaskSection from '../components/NewTaskSection';
 
 export default function CreateWorkOrder() {
     const { id } = useParams();
@@ -20,13 +21,13 @@ export default function CreateWorkOrder() {
         tasks: []
     });
 
-    const [newTask, setNewTask] = useState({
-        description:'',
-        timeEstimate:0,
-        notes:'',
-        state:'OPEN',
-        assignedTo: null
-    });
+    // const [newTask, setNewTask] = useState({
+    //     description:'',
+    //     timeEstimate:0,
+    //     notes:'',
+    //     state:'OPEN',
+    //     assignedTo: null
+    // });
 
     const [nextNumber, setNextNumber] = useState(null);
 
@@ -86,14 +87,7 @@ export default function CreateWorkOrder() {
     };
 
     const addNewTask = updated => {
-        setForm(f => ({ ...f, tasks: [...f.tasks, updated]}));
-        setNewTask({
-            description:'',
-            timeEstimate: 0,
-            notes:'',
-            state:'OPEN',
-            assignedTo: null
-        });
+        setForm(f => ({ ...f, tasks: [...f.tasks, updated] }));
     };
 
     return (
@@ -176,19 +170,12 @@ export default function CreateWorkOrder() {
                 />
             ))}
             </div>
-            
 
-            <div className="mb-6 p-4 bg-gray-50 rounded shadow-xl">
-                <h4 className="font-semibold">New Task</h4>
-                <TaskCard
-                    task={newTask}
-                    workers={workers}
-                    readOnly={false}
-                    onSave={addNewTask}
-                    onRemove={()=>setNewTask({ description:'', timeEstimate:0, notes:'', state:'OPEN', assignedTo: null })}
-                />
+            <NewTaskSection
+                workers={workers}
+                onAdd={addNewTask}
+            />
 
-            </div>
             <form className='flex justify-center m-4' onSubmit={handleSubmit}>
                 <button type="submit"
                     className="px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600">

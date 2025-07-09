@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import WorkOrderDetailCard from '../components/WorkOrderDetailCard';
 import WorkOrderTaskList from '../components/WorkOrderTaskList';
+import NewTaskSection from '../components/NewTaskSection';
 
 export default function WorkOrderDetailPage() {
     const { id } = useParams();
@@ -15,6 +16,7 @@ export default function WorkOrderDetailPage() {
     const [error, setError] = useState('');
     const [details, setDetails] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [showNew, setShowNew] = useState(false);
 
     const fetchOrder = useCallback(async () => {
         setLoading(true);
@@ -81,6 +83,21 @@ export default function WorkOrderDetailPage() {
         }         
     };
 
+    const handleAddTask = async newTask => {
+        await axios.post(`/api/workorders/${id}/tasks`,
+            {
+                description: newTask.description,
+                timeEstimate: newTask.timeEstimate,
+                notes: newTask.notes,
+                state: newTask.state,
+                assignedTo: newTask.assignedTo,
+            },
+            { headers: { Authorization:`Bearer ${token}`}}
+        )
+        fetchOrder()
+        setShowNew(false)
+    }
+
     const saveTask = async (idx, updatedTask) => {
         const payload = {
             description: updatedTask.description,
@@ -140,6 +157,23 @@ export default function WorkOrderDetailPage() {
                 saveTask={saveTask}
                 deleteTask={deleteTask}
             />
+
+            <div>
+                <button
+                    onClick={() => setShowNew(show => !show)}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                    {showNew ? 'Cancel' : 'Add Task'}
+                </button>
+            </div>
+
+            {showNew && (
+                <NewTaskSection
+                    workers={workers}
+                    onAdd={handleAddTask}
+                />
+            )}
+
         </div>
     );
 }
