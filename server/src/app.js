@@ -22,7 +22,7 @@ app.use('/api/users', protect, userRoutes);
 
 app.use('/api/clients', clientRoutes);
 
-app.use('/api/workorders', workorderRoutes);
+app.use('/api/workorders', protect, authorize('worker', 'manager'), workorderRoutes);
 
 app.listen(5000, () => console.log('API listening on port 5000'));
 

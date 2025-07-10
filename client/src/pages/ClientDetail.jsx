@@ -225,31 +225,33 @@ export default function ClientDetail() {
                     </form>
                 ) : (
                     <div>
-                    <div className="m-8 p-8 shadow-lg rounded-lg space-y-4 max-w-md bg-white">
-                    <h2 className="text-2xl">{client.name}</h2>
-                    <p><strong>Phone:</strong> {client.phone}</p>
-                    <p><strong>Email:</strong> {client.email}</p>
-                    <p><strong>Address:</strong></p>
-                    <p className="ml-4">{client.address.street}</p>
-                    <p className="ml-4">{client.address.city}, {client.address.postalCode}</p>
-                    <p className="ml-4">{client.address.province}</p>
-                    <p className="ml-4">{client.address.country}</p>
+                        <div className='flex justify-center'>
+                            <div className="m-8 p-8 shadow-lg rounded-lg space-y-4 max-w-md bg-white">
+                            <h2 className="text-2xl">{client.name}</h2>
+                            <p><strong>Phone:</strong> {client.phone}</p>
+                            <p><strong>Email:</strong> {client.email}</p>
+                            <p><strong>Address:</strong></p>
+                            <p className="ml-4">{client.address.street}</p>
+                            <p className="ml-4">{client.address.city}, {client.address.postalCode}</p>
+                            <p className="ml-4">{client.address.province}</p>
+                            <p className="ml-4">{client.address.country}</p>
 
-                    <div className="flex space-x-2 pt-4">
-                        <button
-                        onClick={() => setEditing(true)}
-                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                        >
-                        Edit
-                        </button>
-                        {/* <button
-                        onClick={handleDelete}
-                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                        >
-                        Delete
-                        </button> */}
-                    </div>
-                    </div>
+                            <div className="flex space-x-2 pt-4">
+                                <button
+                                onClick={() => setEditing(true)}
+                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                                >
+                                Edit
+                                </button>
+                                {/* <button
+                                onClick={handleDelete}
+                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                >
+                                Delete
+                                </button> */}
+                            </div>
+                            </div>
+                        </div>
                     <div>
                     <h2>{client.name}’s Work Orders</h2>
                     <Link to={`create`} className='px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600'>Add Work Order</Link>

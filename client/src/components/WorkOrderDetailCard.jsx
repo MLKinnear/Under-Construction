@@ -6,7 +6,8 @@ export default function WorkOrderDetailCard({
   setIsEditing,
   saveDetails,
   order,
-  setDetails
+  setDetails,
+  userRole
 }) {
     if (!details) return null;
 
@@ -26,7 +27,7 @@ export default function WorkOrderDetailCard({
         <div className="border p-4 rounded shadow-sm bg-white mb-6">
             <h2 className="text-2xl font-semibold mb-2 flex justify-between items-center">
                 Work Order Details
-                {!isEditing ? (
+                {userRole !== 'worker' && (!isEditing ? (
                 <button
                     onClick={() => setIsEditing(true)}
                     className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -42,18 +43,16 @@ export default function WorkOrderDetailCard({
                     Save
                     </button>
                     <button
-                    onClick={() => {
-                        setIsEditing(false);
-                    }}
+                    onClick={() => {setIsEditing(false)}}
                     className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
                     >
                     Cancel
                     </button>
                 </div>
-                )}
+                ))}
             </h2>
 
-            {isEditing ? (
+            {isEditing ? (userRole !== 'worker' && (
                 <div className="space-y-4">
                     <div>
                         <label className="block font-medium">State</label>
@@ -131,7 +130,7 @@ export default function WorkOrderDetailCard({
                         />
                     </div>
                 </div>
-            ) : (
+            )) : (
                 <>
                     <p><strong>State:</strong> {order.state}</p>
                     {order.altContact?.name && (

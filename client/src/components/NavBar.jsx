@@ -23,24 +23,24 @@ export default function NavBar() {
                         Dashboard
                     </NavLink>
                 )}
-                {user && pathname !== '/clients' && (
+                {user?.role === 'manager' && pathname !== '/clients' && (
                     <NavLink to="/clients"
                     className="px-6 py-1 rounded bg-blue-500 text-white hover:bg-blue-600">
                         Clients
                     </NavLink>
                 )}
-                {user && (
+                {user && pathname !== '/workorders' && (
                     <NavLink to="/workorders"
                     className="px-6 py-1 rounded bg-blue-500 text-white hover:bg-blue-600">
                         Work Orders
                     </NavLink>
                 )}
-                {user?.role === 'worker' && (
+                {/* {user?.role === 'worker' && (
                     <NavLink to="/tasks"
                     className="px-6 py-1 rounded bg-blue-500 text-white hover:bg-blue-600">
                         Tasks
                     </NavLink>
-                )}
+                )} */}
             </div>
 
             <div className="flex items-center space-x-4">

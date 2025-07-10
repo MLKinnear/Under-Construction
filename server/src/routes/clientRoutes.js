@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 const {
     getClients,
@@ -13,12 +13,12 @@ const {
 router.use(protect);
 
 router.route('/')
-    .get(getClients)
-    .post(createClient);
+    .get(authorize('manager'), getClients)
+    .post(authorize('worker','manager'), createClient);
 
 router.route('/:id')
-    .get(getClientById)
-    .put(updateClient)
-    .delete(deleteClient);
+    .get(authorize('manager'), getClientById)
+    .put(authorize('manager'), updateClient)
+    .delete(authorize('manager'), deleteClient);
 
 module.exports = router;

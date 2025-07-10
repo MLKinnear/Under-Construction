@@ -5,16 +5,32 @@ export default function TaskCard({
     workers = [],
     onSave,
     onRemove,
-    readOnly
+    readOnly,
+    fieldsEditable,
 }) {
 
     const [localTask, setLocalTask] = useState(task);
-
+    
     useEffect(() => {
         setLocalTask(task);
     }, [task]);
 
     const isDirty = JSON.stringify(localTask) !== JSON.stringify(task);
+
+    const fe = fieldsEditable ? fieldsEditable : {
+        description: !readOnly,
+        timeEstimate: !readOnly,
+        notes: !readOnly,
+        state: !readOnly,
+        assignedTo: !readOnly,
+    };
+
+    const getAssignedId = assigned => {
+        if (!assigned) return '';
+        return typeof assigned === 'object' ? assigned._id : assigned;
+    }
+
+    const anyEditable = Object.values(fe).some(Boolean);
 
     const handleFieldChange = (field, value) => {
         setLocalTask(prev => ({ ...prev, [field]: value }));
@@ -27,7 +43,7 @@ export default function TaskCard({
                     <label>Description</label>
                     <input
                         className="w-full"
-                        disabled={readOnly}
+                        disabled={!fe.description}
                         value={localTask.description}
                         onChange={e => handleFieldChange('description', e.target.value)}
                     />
@@ -37,7 +53,7 @@ export default function TaskCard({
                     <input
                         type="number"
                         className="w-full"
-                        disabled={readOnly}
+                        disabled={!fe.timeEstimate}
                         value={localTask.timeEstimate}
                         onChange={e => handleFieldChange('timeEstimate', e.target.value)}
                     />
@@ -48,7 +64,7 @@ export default function TaskCard({
                 <label>Note</label>
                 <textarea
                     className="w-full"
-                    disabled={readOnly}
+                    disabled={!fe.notes}
                     value={localTask.notes || ''}
                     onChange={e => handleFieldChange('notes', e.target.value)}
                     />
@@ -59,7 +75,7 @@ export default function TaskCard({
                     <label>Status</label>
                     <select
                         className="block"
-                        disabled={readOnly}
+                        disabled={!fe.state}
                         value={localTask.state}
                         onChange={e => handleFieldChange('state', e.target.value)}
                     >
@@ -68,42 +84,64 @@ export default function TaskCard({
                     </select>
                 </div>
                 <div>
-                    <label>Assign to</label>
+                    <label>Assigned To</label>
+                    {fe.assignedTo ? (
                     <select
                         className="block"
-                        disabled={readOnly}
-                        value={localTask.assignedTo || ''}
-                        onChange={e => handleFieldChange('assignedTo', e.target.value || null)}
+                        disabled={!fe.assignedTo}
+                        value={getAssignedId(localTask.assignedTo)}
+                        onChange={e =>
+                        handleFieldChange(
+                            'assignedTo',
+                            e.target.value ? e.target.value : null
+                        )
+                        }
                     >
                         <option value="">— Unassigned —</option>
-                        {workers.map(w =>
-                        <option key={w._id} value={w._id}>{w.name}</option>
-                        )}
+                        {workers.map(w => (
+                        <option key={w._id} value={w._id}>
+                            {w.name}
+                        </option>
+                        ))}
                     </select>
+                    ) : (
+                    // read-only: show the name (or a dash if none)
+                    <p className="mt-1">
+                        {typeof task.assignedTo === 'object'
+                        ? task.assignedTo.name
+                        : '—'}
+                    </p>
+                    )}
                 </div>
             </div>
 
-            {!readOnly && (
-            <div className="flex gap-2 mt-4">
-            <button
-                onClick={() => onSave(localTask)}
-                disabled={!isDirty}
-                className={`px-4 py-1 rounded text-white ${isDirty ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}>
-                Save
-            </button>
-            <button
-                onClick={() => setLocalTask(task)}
-                disabled={!isDirty}
-                className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
-                Cancel
-            </button>
-            <button
-                onClick={onRemove}
-                className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                Remove
-            </button>
-            </div>
-        )}
+            {(anyEditable || onRemove) && (
+                <div className="flex gap-2 mt-4">
+                    {anyEditable && (
+                        <>
+                            <button
+                                onClick={() => onSave(localTask)}
+                                disabled={!isDirty}
+                                className={`px-4 py-1 rounded text-white ${isDirty ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}>
+                                Save
+                            </button>
+                            <button
+                                onClick={() => setLocalTask(task)}
+                                disabled={!isDirty}
+                                className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
+                                Cancel
+                            </button>
+                        </>
+                    )}
+                    {onRemove && (
+                        <button
+                            onClick={onRemove}
+                            className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                            Remove
+                        </button>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

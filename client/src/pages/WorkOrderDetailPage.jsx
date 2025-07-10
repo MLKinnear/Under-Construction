@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import WorkOrderDetailCard from '../components/WorkOrderDetailCard';
 import WorkOrderTaskList from '../components/WorkOrderTaskList';
 import NewTaskSection from '../components/NewTaskSection';
@@ -9,6 +10,9 @@ export default function WorkOrderDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
+
+    const { role: userRole, user } = useSelector(state => state.auth);
+    const currentUserId = user?._id;
 
     const [order, setOrder] = useState(null);
     const [workers, setWorkers] = useState([]);
@@ -41,18 +45,19 @@ export default function WorkOrderDetailPage() {
     useEffect(() => {fetchOrder();}, [fetchOrder]);
 
     useEffect(() => {
-        const fetchWorkers = async () => {
+        if (userRole === 'manager') {
+            (async function fetchWorkers() {
             try {
-                const res = await axios.get('/api/users/workers',
-                    { headers: { Authorization: `Bearer ${token}` }}
-                );
+                const res = await axios.get('/api/users/workers', {
+                headers: { Authorization: `Bearer ${token}` }
+                });
                 setWorkers(Array.isArray(res.data.data) ? res.data.data : []);
             } catch (err) {
-            console.error('Error loading workers:', err);
+                console.error('Error loading workers (managers only):', err);
             }
-        };
-        fetchWorkers();
-    },[token])
+            })();
+        }
+    },[token, userRole])
 
     const saveDetails = async () => {
         try {
@@ -149,6 +154,7 @@ export default function WorkOrderDetailPage() {
                 saveDetails={saveDetails}
                 order={order}
                 setDetails={setDetails}
+                userRole={userRole}
             />
 
             <WorkOrderTaskList
@@ -156,23 +162,29 @@ export default function WorkOrderDetailPage() {
                 workers={workers}
                 saveTask={saveTask}
                 deleteTask={deleteTask}
+                userRole={userRole}
+                currentUserId={currentUserId}
             />
+            {userRole !== 'worker' && (
+                <>
+                    <div>
+                        <button
+                            onClick={() => setShowNew(show => !show)}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                            {showNew ? 'Cancel' : 'Add Task'}
+                        </button>
+                    </div>
 
-            <div>
-                <button
-                    onClick={() => setShowNew(show => !show)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                    {showNew ? 'Cancel' : 'Add Task'}
-                </button>
-            </div>
-
-            {showNew && (
-                <NewTaskSection
-                    workers={workers}
-                    onAdd={handleAddTask}
-                />
+                    {showNew && (
+                        <NewTaskSection
+                            workers={workers}
+                            onAdd={handleAddTask}
+                        />
+                    )}
+                </>
             )}
+
 
         </div>
     );

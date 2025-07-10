@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 export default function WorkOrderCard({order}) {
-    const { _id, promised, state, client: clientId } = order;
-    const [clientName, setClientName] = useState('');
-
-    useEffect(() => {
-        axios.get(`/api/clients/${clientId}`)
-        .then(res => setClientName(res.data.name))
-        .catch(() => setClientName('Unknown'));
-    }, [clientId]);
+    const { _id, promised, state } = order;
     
     return (
         <Link to={`/workorders/${_id}`} className='p-4 border rounded shadow hover:shadow-lg'>
             <p><strong>WO #:</strong> {order.number}</p>
-            <p><strong>Name:</strong> {clientName || 'Loading…'}</p>
+            <p><strong>Client:</strong> {order.client?.name || 'Unknown'}</p>
             <p><strong>Status:</strong> {state}</p>
 
             <p><strong>Start Date:</strong>{' '}

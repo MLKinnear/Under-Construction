@@ -36,21 +36,48 @@ exports.createWO = async (req, res, next) => {
 
 exports.listByClient = async (req, res, next) => {
     try {
-        const list = await WorkOrder
-        .find({ client: req.params.clientId })
-        .sort('-createdAt');
+        const filter = { client: req.params.clientId };
+
+        if(req.user.role === 'worker') {
+            filter.assignedTo = req.user._id;
+        }
+
+        const list = await WorkOrder.find(filter).sort('-createdAt');
         res.json(list);
     } catch (err) {
         next(err);
     }
 };
 
+// exports.getOneWO = async (req, res, next) => {
+//     try {
+//         const wo = await WorkOrder
+//         .findById(req.params.id)
+//         .populate('client');
+//         if (!wo) return res.status(404).sent('Work Order not found');
+//         res.json(wo);
+//     } catch (err) {
+//         next(err);
+//     }
+// };
+
 exports.getOneWO = async (req, res, next) => {
     try {
-        const wo = await WorkOrder
-        .findById(req.params.id)
-        .populate('client');
-        if (!wo) return res.status(404).sent('Work Order not found');
+        const filter = {_id: req.params.id };
+
+        if (req.user.role === 'worker') {
+            filter['tasks.assignedTo'] = req.user._id;
+        }
+
+        const wo = await WorkOrder.findOne(filter)
+            .populate('client')
+            .populate({
+                path: 'tasks.assignedTo',
+                select: 'name'
+            });
+        if (!wo) {
+            return res.status(404).json({ msg: 'No Work Order found or authorized'});
+        }
         res.json(wo);
     } catch (err) {
         next(err);
@@ -86,22 +113,43 @@ exports.addTask = async (req, res, next) => {
 
 exports.updateTask = async (req, res, next) => {
     try{
-        const { description, timeEstimate, notes, state, assignedTo } = req.body;
+        const { notes, state } = req.body;
         const idx = parseInt(req.params.taskIndex, 10);
         const wo = await WorkOrder.findById(req.params.id);
         if (!wo) return res.status(404).json({ msg: 'Work order not found'});
 
         const task = wo.tasks[idx];
-        task.description = description;
-        task.timeEstimate = timeEstimate;
-        task.notes = notes;
-        task.state = state;
-        task.assignedTo = assignedTo || null;
+        if(!task) {
+            return res.status(404).json({ msg: 'Task not found' });
+        }
+
+        if (req.user.role === 'manager'){
+            ['description','timeEstimate','notes','state','assignedTo']
+            .forEach(f => {
+                if (req.body[f] !== undefined) {
+                    task[f] = req.body[f];
+                }
+            });
+        } else if (req.user.role === 'worker') {
+            if (!task.assignedTo ||
+                task.assignedTo.toString() !== req.user._id.toString()
+            ) {
+                return res.status(403).json({ msg: 'Forbidden' });
+            }
+
+            if (req.body.notes  !== undefined) task.notes  = req.body.notes;
+            if (req.body.state  !== undefined) task.state  = req.body.state;
+
+        } else {
+            return res.status(403).json({ msg: 'Forbidden' });
+        }
 
         await wo.save();
         return res.json(wo);
+
     }catch (err) {
-        next(err);
+        console.error('updateTask error:', err);
+        return res.status(500).json({ msg: 'Server error: ' + err.message });
     }
 };
 

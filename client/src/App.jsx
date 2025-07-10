@@ -31,11 +31,11 @@ function App() {
               <Dashboard />
             </PrivateRoute>} />
           <Route path="/clients/:id" element={
-            <PrivateRoute>
+            <PrivateRoute roles={['manager']}>
               <ClientDetail/>
             </PrivateRoute>} />
           <Route path="/clients/:id/create" element={
-            <PrivateRoute>
+            <PrivateRoute roles={['manager']}>
               <CreateWorkOrder/>
             </PrivateRoute>
           } />
@@ -44,7 +44,7 @@ function App() {
               <ProfilePage/>
             </PrivateRoute>} />
            <Route path="/clients" element={
-            <PrivateRoute>
+            <PrivateRoute roles={['manager']}>
               <ClientsPage/>
             </PrivateRoute>} />
           <Route path="/workorders" element={
