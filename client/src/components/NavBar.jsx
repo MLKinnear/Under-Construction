@@ -35,12 +35,6 @@ export default function NavBar() {
                         Work Orders
                     </NavLink>
                 )}
-                {/* {user?.role === 'worker' && (
-                    <NavLink to="/tasks"
-                    className="px-6 py-1 rounded bg-blue-500 text-white hover:bg-blue-600">
-                        Tasks
-                    </NavLink>
-                )} */}
             </div>
 
             <div className="flex items-center space-x-4">

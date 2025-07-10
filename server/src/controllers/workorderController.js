@@ -49,18 +49,6 @@ exports.listByClient = async (req, res, next) => {
     }
 };
 
-// exports.getOneWO = async (req, res, next) => {
-//     try {
-//         const wo = await WorkOrder
-//         .findById(req.params.id)
-//         .populate('client');
-//         if (!wo) return res.status(404).sent('Work Order not found');
-//         res.json(wo);
-//     } catch (err) {
-//         next(err);
-//     }
-// };
-
 exports.getOneWO = async (req, res, next) => {
     try {
         const filter = {_id: req.params.id };

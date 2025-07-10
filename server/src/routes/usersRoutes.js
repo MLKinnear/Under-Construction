@@ -15,12 +15,6 @@ router.use(protect);
 // Managers only
 router.get('/workers', authorize('manager'), getWorkers);
 
-// Managers rotate their key
-// POST /api/users/access-key/rotate
-// Managers only
-// router.post('/access-key/rotate', authorize('manager'), rotateKey);
-
-
 // Profile
 router
     .route('/profile')

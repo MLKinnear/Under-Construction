@@ -105,7 +105,6 @@ export default function TaskCard({
                         ))}
                     </select>
                     ) : (
-                    // read-only: show the name (or a dash if none)
                     <p className="mt-1">
                         {typeof task.assignedTo === 'object'
                         ? task.assignedTo.name

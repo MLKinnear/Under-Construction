@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto')
 // Gets all workers under current manager
 // GET /api/users/workers
-// manager only
 exports.getWorkers = async (req, res) => {
     try{
         const workers = await User.find({ manager: req.user._id })

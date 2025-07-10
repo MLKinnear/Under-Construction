@@ -13,16 +13,6 @@ const {
     removeTask
 } = require('../controllers/workorderController');
 
-// router.get('/', protect, async (req, res) => {
-//     try {
-//         const orders = await WorkOrder.find({ manager: req. user._id });
-//         res.json(orders);
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ msg: 'Server error'});
-//     }
-// });
-
 router.get('/', protect, authorize('worker', 'manager'), async (req, res) => {
     try {
         let filter;

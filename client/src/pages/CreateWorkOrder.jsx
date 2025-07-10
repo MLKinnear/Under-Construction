@@ -21,14 +21,6 @@ export default function CreateWorkOrder() {
         tasks: []
     });
 
-    // const [newTask, setNewTask] = useState({
-    //     description:'',
-    //     timeEstimate:0,
-    //     notes:'',
-    //     state:'OPEN',
-    //     assignedTo: null
-    // });
-
     const [nextNumber, setNextNumber] = useState(null);
 
     useEffect(() => {

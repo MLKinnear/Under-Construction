@@ -86,19 +86,6 @@ export default function ClientDetail() {
         }
     };
 
-    // const handleDelete = async () => {
-    //     if (!window.confirm('Delete this client forever?')) return;
-    //     try {
-    //         const token = localStorage.getItem('token');
-    //         await axios.delete(`/api/clients/${id}`,
-    //             { headers: { Authorization: `Bearer ${token}`}});
-    //         navigate('/dashboard');
-    //     } catch (err) {
-    //         console.error(err);
-    //         alert('Failed to delete client');
-    //     }
-    // };
-
     if (loading) return <p className='p-6'>Loading client...</p>
 
     return (
@@ -243,12 +230,6 @@ export default function ClientDetail() {
                                 >
                                 Edit
                                 </button>
-                                {/* <button
-                                onClick={handleDelete}
-                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                                >
-                                Delete
-                                </button> */}
                             </div>
                             </div>
                         </div>

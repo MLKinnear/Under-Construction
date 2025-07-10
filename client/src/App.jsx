@@ -55,10 +55,6 @@ function App() {
             <PrivateRoute>
               <WorkOrderDetailPage/>
             </PrivateRoute>} />
-          {/*<Route path="/tasks" element={
-            <PrivateRoute>
-              <div>TasksPage</div>
-            </PrivateRoute>} /> */}
         </Routes>
       </BrowserRouter>
     </div>
