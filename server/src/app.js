@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/usersRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const workorderRoutes = require('./routes/workorderRoutes');
+const noteRoutes = require('./routes/noteRoutes');
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use('/api/users', protect, userRoutes);
 app.use('/api/clients', clientRoutes);
 
 app.use('/api/workorders', protect, authorize('worker', 'manager'), workorderRoutes);
+
+app.use('/api/notes', noteRoutes);
 
 app.listen(5000, () => console.log('API listening on port 5000'));
 

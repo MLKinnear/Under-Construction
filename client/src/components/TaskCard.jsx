@@ -10,12 +10,15 @@ export default function TaskCard({
 }) {
 
     const [localTask, setLocalTask] = useState(task);
+    const [showError, setShowError] = useState(false);
     
     useEffect(() => {
         setLocalTask(task);
+        setShowError(false);
     }, [task]);
 
     const isDirty = JSON.stringify(localTask) !== JSON.stringify(task);
+    const isDescriptionValid = localTask.description.trim() !== "";
 
     const fe = fieldsEditable ? fieldsEditable : {
         description: !readOnly,
@@ -34,7 +37,18 @@ export default function TaskCard({
 
     const handleFieldChange = (field, value) => {
         setLocalTask(prev => ({ ...prev, [field]: value }));
+        if (field === 'description' && showError) {
+            setShowError(value.trim() === '');
+        }
     };
+
+    const handleSaveClick = () => {
+        if (!isDescriptionValid){
+            setShowError(true);
+            return;
+        }
+        onSave(localTask)
+    }
 
     return (
         <div className="border p-4 rounded bg-white mb-4">
@@ -46,7 +60,13 @@ export default function TaskCard({
                         disabled={!fe.description}
                         value={localTask.description}
                         onChange={e => handleFieldChange('description', e.target.value)}
+                        onBlur={() => setShowError(!isDescriptionValid)}
                     />
+                    {showError && (
+                        <p className="text-red-600 text-sm mt-1">
+                            A description is required!
+                        </p>
+                    )}
                 </div>
                 <div>
                     <label>Time Estimate (hrs)</label>
@@ -119,13 +139,21 @@ export default function TaskCard({
                     {anyEditable && (
                         <>
                             <button
-                                onClick={() => onSave(localTask)}
-                                disabled={!isDirty}
-                                className={`px-4 py-1 rounded text-white ${isDirty ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}>
+                                onClick={handleSaveClick}
+                                disabled={!isDirty || !isDescriptionValid}
+                                className={`px-4 py-1 rounded text-white ${
+                                    isDirty && isDescriptionValid
+                                    ? "bg-green-500 hover:bg-green-600"
+                                    : "bg-gray-300 cursor-not-allowed"
+                                }`}
+                            >
                                 Save
                             </button>
                             <button
-                                onClick={() => setLocalTask(task)}
+                                onClick={() => {
+                                    setLocalTask(task)
+                                    setShowError(false);
+                                }}
                                 disabled={!isDirty}
                                 className="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
                                 Cancel
