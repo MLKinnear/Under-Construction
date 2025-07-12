@@ -6,6 +6,7 @@ const {
     getNextNumber,
     createWO,
     listByClient,
+    getWorkOrdersForClient,
     getOneWO,
     updateWO,
     addTask,

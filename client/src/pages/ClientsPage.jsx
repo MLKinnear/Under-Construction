@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Squares2X2Icon, Bars4Icon } from '@heroicons/react/24/outline';
 import ClientCard from '../components/ClientCard';
 import ClientForm from '../components/ClientForm';
 
@@ -9,6 +10,7 @@ export default function ClientsPage() {
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [layout, setLayout] = useState('');
 
     useEffect(() => {
         async function loadClients(){
@@ -26,6 +28,17 @@ export default function ClientsPage() {
     }
     loadClients();
 }, []);
+
+    useEffect(() => {
+        const saved = localStorage.getItem('clientsLayout');
+        if (saved === 'grid' || saved === 'list') {
+            setLayout(saved);
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('clientsLayout', layout);
+    }, [layout]);
 
 if (loading) return <p>Loading clients...</p>
 
@@ -46,6 +59,7 @@ const filteredClients = clients.filter(client => {
     return (
         <div>
             <h1 className='mb-2 text-center text-4xl'>Clients</h1>
+
             <div className=' m-2 space-y-2 md:space-y-0'>
                 <button
                 onClick={() => setShowForm(true)}
@@ -67,17 +81,47 @@ const filteredClients = clients.filter(client => {
             )}
 
             <div className='container mx-auto p-6'>
-                <h2 className='text-2xl mb-4'>Your Clients</h2>
-                <input
-                type='text'
-                placeholder='Search clients by name, phone, or address...'
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                className='w-full md:w-1/4 p-2 border rounded'
-                />
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                <div className='flex justify-center max-h-10'>
+                    <p className='text-xl p-1'>Search</p>
+                    <input
+                    type='text'
+                    placeholder='Name, number, or Address...'
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className='w-full md:w-1/4 p-2 border rounded'
+                    />
+                </div>
+
+                <div className="hidden sm:flex justify-center space-x-2 m-4">
+                    <button
+                        onClick={() => setLayout('grid')}
+                        aria-label="Grid view"
+                        className={`p-2 rounded 
+                        ${layout === 'grid'
+                            ? 'bg-blue-500 text-white shadow-inner'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                    >
+                        <Squares2X2Icon className="w-5 h-5" />
+                    </button>
+
+                    <button
+                        onClick={() => setLayout('list')}
+                        aria-label="List view"
+                        className={`p-2 rounded 
+                        ${layout === 'list'
+                            ? 'bg-blue-500 text-white shadow-inner'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                    >
+                        <Bars4Icon className="w-5 h-5" />
+                    </button>
+                </div>
+                <div className={
+                    layout === 'grid'
+                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+                    : 'flex flex-col space-y-4'
+                }>
                 {filteredClients.map(client => (
-                    <ClientCard key={client._id} client={client} />
+                    <ClientCard key={client._id} client={client} layout={layout} />
                 ))}
                 {filteredClients.length === 0 && (
                     <p className='text-center col-span-full'>No clients match your search.</p>

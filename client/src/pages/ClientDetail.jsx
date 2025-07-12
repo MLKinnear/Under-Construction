@@ -42,13 +42,14 @@ export default function ClientDetail() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        axios.get(`/api/workorders/clients/${id}`, {
-            headers: { Authorization: `Bearer ${token}`}
+        axios.get(`/api/workorders/clients/${id}`, { headers: { Authorization: `Bearer ${token}`} })
+            .then(res => {
+            const withClient = res.data.map(o => ({ ...o, client }));
+            setOrders(withClient);
         })
-        .then(res => setOrders(res.data))
         .catch(err => console.error('Could not load work order', err))
         .finally(() => setOrdersLoading(false));
-    }, [id]);
+    }, [id, client]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -238,8 +239,8 @@ export default function ClientDetail() {
                     <Link to={`create`} className='px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600'>Add Work Order</Link>
                     { ordersLoading ? <p>Loading work orders…</p> : orders.length === 0 ? <p>No work orders yet.</p>
                         :<div className="grid grid-cols-3 gap-4 mt-4">
-                            {orders.map(wo => (
-                            <WorkOrderCard key={wo._id} order={wo} />
+                            {orders.map(order => (
+                            <WorkOrderCard key={order._id} order={order} />
                             ))}
                         </div>}
                     </div>
