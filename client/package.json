@@ -10,9 +10,6 @@
     "preview": "vite preview",
     "test": "jest"
   },
-  "jest":{
-    "testEnvironment": "jsdom"
-  },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@reduxjs/toolkit": "^2.8.2",
@@ -28,6 +25,8 @@
     "react-router-dom": "^7.6.3"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
     "@eslint/js": "^9.25.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -41,6 +40,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.1",
     "vite": "^6.3.5"

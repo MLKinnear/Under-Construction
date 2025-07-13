@@ -30,4 +30,8 @@ export default [
       ],
     },
   },
-]
+  {
+    files: ['**/*.test.{js,jsx}'],
+    env: { jest: true }
+  }
+];
