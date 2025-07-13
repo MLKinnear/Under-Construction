@@ -83,71 +83,106 @@ export default function CreateWorkOrder() {
     };
 
     return (
-        <div>
+        <div className="container mx-auto p-6">
+            <h1 className="flex justify-center text-4xl mb-4">Create Work Order</h1>
+            <form className='flex justify-between m-1' onSubmit={handleSubmit}>
+                <button onClick={() => navigate(-1)}
+                    className="mb-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">
+                    ← Back
+                </button>
+                <button type="submit"
+                    className="mb-4 px-4 py-2 rounded bg-green-500 text-white hover:bg-green-600">
+                    Create Work Order
+                </button>
+            </form>
             {client && (
-                <div className='mb-6 p-4 bg-gray-50 rounded shadow-xl'>
-                    <h4 className='text-lg font-semibold'>Client Info</h4>
-                    {/* Work Order Number */}
+                <div>
                     {nextNumber !== null &&(
-                    <div>
-                        <label><strong>Work Order #</strong></label>
-                        <input value={nextNumber} disabled/>
-                    </div>
+                        <div className="text-3xl font-semibold mb-4">
+                            <label >Work Order #</label>
+                            <input value={nextNumber} disabled/>
+                        </div>
                     )}
-                    <p><strong>Name:</strong> {client.name}</p>
-                    <p><strong>Phone:</strong> {client.phone}</p>
-                    <p><strong>Address:</strong>{' '}
-                        {client.address.street}, {client.address.city}
-                    </p>
+                    <h2 className="text-2xl font-semibold mb-2">Client Info</h2>
+                    <div className="border p-4 rounded shadow-sm bg-white mb-6">
+
+                        <p><strong>Name:</strong> {client.name}</p>
+                        <p><strong>Email:</strong> {client.email}</p>
+                        <p><strong>Phone:</strong> {client.phone || '—'}</p>
+                        {client.address && (
+                        <p><strong>Address:</strong> {client.address.street}, {client.address.city}</p>
+                        )}
+                    </div>
                 </div>
             )}
 
-            <form className='mb-6 p-4 bg-gray-50 rounded shadow-xl'>
+            <form className="border p-4 rounded shadow-sm bg-white mb-6">
 
-                {/* Alternative Contact Info */}
-                <div>
-                    <p>Additional Contact Information:</p>
-                    <label>Name</label>
-                    <input name='altContact.name' onChange={handleChange} value={form.altContact.name} />
-                    <label>Phone</label>
-                    <input name='altContact.phone' onChange={handleChange} value={form.altContact.phone} />
-                    <label>Address</label>
-                    <input name='altContact.address' onChange={handleChange} value={form.altContact.address} />
-                </div>
+                <div className="space-y-4">
+                    <div>
+                        <p>Additional Contact Information:</p>
+                        <label className="block font-medium">Name</label>
+                        <input className="w-full border p-2 rounded"
+                            name='altContact.name'
+                            onChange={handleChange}
+                            value={form.altContact.name}
+                        />
+                        <label className="block font-medium">Phone</label>
+                        <input className="w-full border p-2 rounded"
+                            name='altContact.phone'
+                            onChange={handleChange}
+                            value={form.altContact.phone}
+                        />
+                        <label className="block font-medium">Address</label>
+                        <input className="w-full border p-2 rounded"
+                            name='altContact.address'
+                            onChange={handleChange}
+                            value={form.altContact.address}
+                        />
+                    </div>
 
-                {/* Promised dates */}
-                <div>
-                    <label>Start Date</label>
-                    <input
-                        type='datetime-local'
-                        name='promised.start'
-                        onChange={handleChange}
-                        value={form.promised.start}
-                    />
-                    <label>Promised Date</label>
-                    <input
-                        type='datetime-local'
-                        name='promised.by'
-                        onChange={handleChange}
-                        value={form.promised.by}
-                    />
-                </div>
+                    <div>
+                        <label className="block font-medium">Start Date</label>
+                        <input
+                            type='datetime-local'
+                            className="w-full border p-2 rounded"
+                            name='promised.start'
+                            onChange={handleChange}
+                            value={form.promised.start}
+                        />
+                        <label className="block font-medium">Promised Date</label>
+                        <input
+                            type='datetime-local'
+                            className="w-full border p-2 rounded"
+                            name='promised.by'
+                            onChange={handleChange}
+                            value={form.promised.by}
+                        />
+                    </div>
 
-                {/* Notes & State */}
-                <div>
-                    <label>Notes</label>
-                    <textarea name='notes' onChange={handleChange} value={form.notes} />
-                    <label>Work Order Status</label>
-                    <select name='state' onChange={handleChange} value={form.state}>
-                        <option>OPEN</option>
-                        <option>ON HOLD</option>
-                        <option>IN PROGRESS</option>
-                        <option>IN REVIEW</option>
-                        <option>COMPLETED</option>
-                    </select>
+                    <div>
+                        <label className="block font-medium">Work Order Notes</label>
+                        <textarea className="w-full border p-2 rounded"
+                            name='notes'
+                            onChange={handleChange}
+                            value={form.notes}
+                        />
+                        <label className="block font-medium">Work Order Status</label>
+                        <select className="w-full border p-2 rounded"
+                            name='state'
+                            onChange={handleChange}
+                            value={form.state}
+                        >
+                            <option>OPEN</option>
+                            <option>ON HOLD</option>
+                            <option>IN PROGRESS</option>
+                            <option>IN REVIEW</option>
+                            <option>COMPLETED</option>
+                        </select>
+                    </div>
                 </div>
             </form>
-            <div className='mb-6 p-4 bg-gray-50 rounded shadow-xl'>
+            <div className='mb-6 p-4 bg-gray-50 rounded shadow-sm'>
             <h3>Tasks</h3>
             {form.tasks.length === 0 ? (
                 <p className="italic text-gray-500">No tasks yet</p>
@@ -168,9 +203,13 @@ export default function CreateWorkOrder() {
                 onAdd={addNewTask}
             />
 
-            <form className='flex justify-center m-4' onSubmit={handleSubmit}>
+            <form className='flex justify-between m-1' onSubmit={handleSubmit}>
+                <button onClick={() => navigate(-1)}
+                    className="mb-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">
+                    ← Back
+                </button>
                 <button type="submit"
-                    className="px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600">
+                    className="mb-4 px-4 py-2 rounded bg-green-500 text-white hover:bg-green-600">
                     Create Work Order
                 </button>
             </form>

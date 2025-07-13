@@ -8,6 +8,7 @@ export default function WorkOrdersPage() {
     const [loading, setLoading] = useState(true);
     const [stateFilter, setStateFilter] = useState('All');
     const [layout, setLayout] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         async function loadWorkOrders() {
@@ -41,32 +42,45 @@ export default function WorkOrdersPage() {
 
     const states = ['All', ...Array.from(new Set(orders.map(o => o.state)))];
 
-    const filteredOrders =
-        stateFilter === 'All'
-            ? orders
-            : orders.filter(order => order.state === stateFilter);
+    const filteredOrders = orders.filter(order => {
+        const matchesState = stateFilter === 'All' || order.state === stateFilter;
+        const term = searchTerm.toLowerCase();
+        const matchClient = order.client?.name?.toLowerCase().includes(term);
+        const matchNumber = order.number?.toString().toLowerCase().includes(term);
+        const matchWorker = order.tasks?.some(task =>
+            task.assignedTo?.name?.toLowerCase().includes(term)
+        );
+        return matchesState && (matchClient || matchNumber || matchWorker);
+    });
 
     return (
         <div>
             <h1 className='mb-6 text-center text-4xl'>Work Orders</h1>
 
             <div className='container mx-auto p-6'>
-                <div className='flex text-center justify-center max-h-10'>
-                    <p className='p-1 text-xl'>Filter</p>
-                    <select
-                        value={stateFilter}
-                        onChange={e => setStateFilter(e.target.value)}
-                        className='p-2 border rounded'
-                    >
-                        {states.map(state => (
-                            <option key={state} value={state}>
-                                {state}
-                            </option>
-                        ))}
-                    </select>
+                <div className='flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4'>
+                    <div className='flex items-center space-x-2'>
+                        <p className='text-xl'>Filter:</p>
+                        <select
+                            value={stateFilter}
+                            onChange={e => setStateFilter(e.target.value)}
+                            className='p-2 border rounded'
+                        >
+                            {states.map(state => (
+                                <option key={state} value={state}>{state}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <input
+                        type='text'
+                        placeholder='client name or work order #'
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                        className='p-2 border rounded max-w-60 sm:w-1/3'
+                    />
                 </div>
                 {filteredOrders.length === 0 ? (
-                    <p className='text-center'>No work orders match your filter.</p>
+                    <p className='text-center'>No work orders match your criteria.</p>
                 ) : (
                     <div>
                         <div className="hidden sm:flex justify-center space-x-2 m-4">

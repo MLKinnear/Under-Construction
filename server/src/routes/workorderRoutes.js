@@ -6,7 +6,6 @@ const {
     getNextNumber,
     createWO,
     listByClient,
-    getWorkOrdersForClient,
     getOneWO,
     updateWO,
     addTask,
@@ -24,7 +23,11 @@ router.get('/', protect, authorize('worker', 'manager'), async (req, res) => {
         }
         const orders = await WorkOrder.find(filter)
             .sort('-createdAt')
-            .populate({ path: 'client', select: 'name' });
+            .populate({ path: 'client', select: 'name' })
+            .populate({
+                path: 'tasks.assignedTo',
+                select: 'name'
+            });
         res.json(orders);
     } catch(err) {
         console.error(err);

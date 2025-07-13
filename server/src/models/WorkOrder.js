@@ -34,7 +34,14 @@ const WorkOrderSchema = new Schema ({
         enum: ['OPEN', 'ON HOLD', 'IN PROGRESS', 'IN REVIEW', 'COMPLETED'],
         default: 'OPEN'
     }
-}, { timestamps: true });
+}, {toJSON: { 
+    virtuals: true,
+    transform(doc, ret) {
+        ret.number = String(ret.number).padStart(6, '0');
+        delete ret.paddedNumber;
+        return ret;
+    }
+    }, toObject: { virtuals: true}}, { timestamps: true });
 
 WorkOrderSchema.index({ manager: 1, number: 1 }, { unique: true }),
 

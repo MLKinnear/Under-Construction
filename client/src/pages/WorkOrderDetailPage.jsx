@@ -78,6 +78,9 @@ export default function WorkOrderDetailPage() {
     };
 
     const deleteTask = async idx => {
+        if (!window.confirm('Permanently delete this task? All data will be lost.')) {
+            return;
+        }
         try {
             await axios.delete(`/api/workorders/${id}/tasks/${idx}`,
                 { headers: { Authorization: `Bearer ${token}` },
@@ -128,6 +131,7 @@ export default function WorkOrderDetailPage() {
 
     return (
         <div className="container mx-auto p-6">
+            <h1 className="flex justify-center text-4xl mb-4">Work Order Details</h1>
             <button onClick={() => navigate(-1)}
             className="mb-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
             ← Back
@@ -135,7 +139,6 @@ export default function WorkOrderDetailPage() {
 
             <h1 className="text-3xl font-semibold mb-4">Work Order #{order.number}</h1>
 
-            {/* Client Info Section */}
             <h2 className="text-2xl font-semibold mb-2">Client Info</h2>
             <div className="border p-4 rounded shadow-sm bg-white mb-6">
                 <p><strong>Name:</strong> {order.client.name}</p>
@@ -146,7 +149,6 @@ export default function WorkOrderDetailPage() {
                 )}
             </div>
             
-            {/* Details and Tasks Split */}
             <WorkOrderDetailCard
                 details={details}
                 isEditing={isEditing}

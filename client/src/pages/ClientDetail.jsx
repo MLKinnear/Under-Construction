@@ -214,16 +214,23 @@ export default function ClientDetail() {
                 ) : (
                     <div>
                         <div className='flex justify-center'>
-                            <div className="m-8 p-8 shadow-lg rounded-lg space-y-4 max-w-md bg-white">
-                            <h2 className="text-2xl">{client.name}</h2>
-                            <p><strong>Phone:</strong> {client.phone}</p>
-                            <p><strong>Email:</strong> {client.email}</p>
-                            <p><strong>Address:</strong></p>
-                            <p className="ml-4">{client.address.street}</p>
-                            <p className="ml-4">{client.address.city}, {client.address.postalCode}</p>
-                            <p className="ml-4">{client.address.province}</p>
-                            <p className="ml-4">{client.address.country}</p>
-
+                            <div className="border p-4 rounded shadow-sm bg-white mb-6">
+                                <h2 className="text-2xl p-1">{client.name}</h2>
+                                    <p className='p-1'><strong>Phone:</strong> {client.phone}</p>
+                                    <p className='p-1'><strong>Email:</strong> {client.email}</p>
+                                    {client.address && (
+                                    <p className='p-1'><strong>Address:</strong>
+                                    {client.address.street},
+                                    {client.address.city},
+                                    </p>
+                                    )}
+                                    {client.address && (
+                                    <p  className='p-1'>
+                                    {client.address.province},
+                                    {client.address.postalCode},
+                                    {client.address.country},
+                                    </p>
+                                    )}
                             <div className="flex space-x-2 pt-4">
                                 <button
                                 onClick={() => setEditing(true)}
@@ -235,10 +242,14 @@ export default function ClientDetail() {
                             </div>
                         </div>
                     <div>
-                    <h2>{client.name}’s Work Orders</h2>
-                    <Link to={`create`} className='px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600'>Add Work Order</Link>
+                    <h2 className='flex justify-center text-2xl m-2'>{client.name}’s Work Orders</h2>
+                    <Link to={`create`} className=' px-6 py-1 rounded bg-green-500 text-white hover:bg-green-600'>
+                    Create Work Order
+                    </Link>
                     { ordersLoading ? <p>Loading work orders…</p> : orders.length === 0 ? <p>No work orders yet.</p>
-                        :<div className="grid grid-cols-3 gap-4 mt-4">
+                        :<div className={
+                            'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+                        }>
                             {orders.map(order => (
                             <WorkOrderCard key={order._id} order={order} />
                             ))}

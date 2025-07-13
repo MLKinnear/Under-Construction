@@ -8,7 +8,9 @@ exports.getNextNumber = async (req, res, next) => {
         .limit(1)
         .select('number')
         .lean();
-    res.json({ next: last.length ? last[0].number + 1 : 100 });
+    const rawNext = last.length ? last[0].number + 1 : 100;
+    const nextPadded = String(rawNext).padStart(6, '0');
+    res.json({ next: nextPadded });
 }
 
 exports.createWO = async (req, res, next) => {
