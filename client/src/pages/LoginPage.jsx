@@ -30,22 +30,26 @@ export default function LoginPage() {
 
                 <p className='text-lg'>Email:</p>
                 <input
+                    id='email'
                     type='email'
                     placeholder='Email'
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
                     className='bg-blue-50 rounded-sm p-1'
+                    autoComplete='off'
                 />
 
                 <p className='text-lg'>Password:</p>
-                <input
+                <input 
+                    id='password'
                     type='password'
                     placeholder='Password'
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     required
                     className='bg-blue-50 rounded-sm p-1'
+                    autoComplete='off'
                 />
 
                 {error && <p>{error}</p>}

@@ -16,6 +16,5 @@ export default function PrivateRoute({ children, roles }) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  // Otherwise OK
   return children;
 }

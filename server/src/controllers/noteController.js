@@ -52,11 +52,14 @@ exports.updateNote = async (req, res) => {
 //DELETE /api/notes/:id
 exports.deleteNote = async (req, res) => {
     try {
-        const note = await Note.findById(req.params.id);
-        if (!note) return res.status(404).json({ msg: 'Note not found' });
-        await note.remove();
-        res.json({ msg: 'Note removed' });
+        const { id } = req.params;
+        const deleted = await Note.findByIdAndDelete(id);
+        if (!deleted) {
+        return res.status(404).json({ msg: 'Note not found' });
+        }
+        return res.json({ msg: 'Note removed' });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error('Error in deleteNote:', err);
+        return res.status(500).json({ msg: err.message });
     }
 };

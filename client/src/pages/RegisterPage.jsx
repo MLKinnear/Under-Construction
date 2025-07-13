@@ -45,32 +45,37 @@ export default function RegisterPage() {
             <div className='flex justify-center'>
             <form onSubmit={handleSubmit} className='flex flex-col m-8 p-5 gap-4 shadow-lg rounded-lg bg-white min-w-[300px]'>
                 <div className=' flex justify-center'>
-                    <select className='max-w-24' value={role} onChange={e => setRole(e.target.value)}>
+                    <select id='role' className='max-w-24' value={role} onChange={e => setRole(e.target.value)}>
                         <option value={"manager"}>Manager</option>
                         <option value={"worker"}>Worker</option>
                     </select>
                 </div>
                 <p className='text-lg'>Name:</p>
                 <input
+                    id='name'
                     type='text'
                     placeholder='Name'
                     value={name}
                     onChange={e => setName(e.target.value)}
                     required
                     className='bg-blue-50 rounded-sm p-1'
+                    autoComplete='off'
                 />
 
                 <p className='text-lg'>Email:</p>
                 <input
+                    id='email'
                     type='email'
                     placeholder='Email'
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
                     className='bg-blue-50 rounded-sm p-1'
+                    autoComplete='off'
                 />
                 <p className='text-lg'>Password:</p>
                 <input
+                    id='password'
                     type='password'
                     placeholder='Password'
                     value={password}
@@ -81,6 +86,7 @@ export default function RegisterPage() {
                 
                 <p className='text-lg'>Confirm Password:</p>
                 <input
+                    id='confirmPassword'
                     type='password'
                     placeholder='Confirm Password'
                     value={confirm}
@@ -94,6 +100,7 @@ export default function RegisterPage() {
                     <div>
                         <p className='text-lg mb-4'>Manager Key:</p>
                         <input
+                            id='managerkey'
                             type='text'
                             placeholder='Manager Key'
                             value={managerKey}
@@ -108,6 +115,7 @@ export default function RegisterPage() {
                     <div>
                         <p className='text-lg mb-4'>Product Key:</p>
                         <input
+                            id='productkey'
                             type='text'
                             placeholder='Product Key'
                             value={productKey}

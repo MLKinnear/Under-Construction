@@ -100,91 +100,99 @@ export default function ClientDetail() {
                     <label className="block">
                         <span>Name</span>
                         <input
-                        name="name"
-                        type="text"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full p-2 border rounded mt-1"
+                            id='name'
+                            name="name"
+                            type="text"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 
                     <label className="block">
                         <span>Phone</span>
                         <input
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                        className="w-full p-2 border rounded mt-1"
+                            id='phone'
+                            name="phone"
+                            type="tel"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 
                     <label className="block">
                         <span>Email</span>
                         <input
-                        name="email"
-                        type="text"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full p-2 border rounded mt-1"
+                            id='email'
+                            name="email"
+                            type="text"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 
                     <label className="block">
                         <span>Street</span>
                         <input
-                        name="address.street"
-                        type="text"
-                        value={formData.address.street || ''}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded mt-1"
+                            id='street'
+                            name="address.street"
+                            type="text"
+                            value={formData.address.street || ''}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 
                     <label className="block">
                         <span>City</span>
                         <input
-                        name="address.city"
-                        type="text"
-                        value={formData.address.city || ''}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded mt-1"
+                            id='city'
+                            name="address.city"
+                            type="text"
+                            value={formData.address.city || ''}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 
                     <label className="block">
                         <span>Postal Code</span>
                         <input
-                        name="address.postalCode"
-                        type="text"
-                        value={formData.address.postalCode || ''}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded mt-1"
+                            id='postalCode'
+                            name="address.postalCode"
+                            type="text"
+                            value={formData.address.postalCode || ''}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 
                     <label className="block">
                         <span>Province</span>
                         <input
-                        name="address.province"
-                        type="text"
-                        value={formData.address.province || ''}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded mt-1"
+                            id='province'
+                            name="address.province"
+                            type="text"
+                            value={formData.address.province || ''}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 
                     <label className="block">
                         <span>Country</span>
                         <input
-                        name="address.country"
-                        type="text"
-                        value={formData.address.country || ''}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded mt-1"
+                            id='country'
+                            name="address.country"
+                            type="text"
+                            value={formData.address.country || ''}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded mt-1"
                         />
                     </label>
 

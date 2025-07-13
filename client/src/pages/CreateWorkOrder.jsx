@@ -99,8 +99,13 @@ export default function CreateWorkOrder() {
                 <div>
                     {nextNumber !== null &&(
                         <div className="text-3xl font-semibold mb-4">
-                            <label >Work Order #</label>
-                            <input value={nextNumber} disabled/>
+                            <label htmlFor="workorder" >Work Order #</label>
+                            <input
+                            id='workorder'
+                            value={nextNumber}
+                            disabled
+                            autoComplete="off"
+                            />
                         </div>
                     )}
                     <h2 className="text-2xl font-semibold mb-2">Client Info</h2>
@@ -121,57 +126,76 @@ export default function CreateWorkOrder() {
                 <div className="space-y-4">
                     <div>
                         <p>Additional Contact Information:</p>
-                        <label className="block font-medium">Name</label>
-                        <input className="w-full border p-2 rounded"
+                        <label htmlFor="name" className="block font-medium">Name</label>
+                        <input
+                            id='name'
                             name='altContact.name'
+                            className="w-full border p-2 rounded"
                             onChange={handleChange}
                             value={form.altContact.name}
+                            autoComplete="off"
                         />
-                        <label className="block font-medium">Phone</label>
-                        <input className="w-full border p-2 rounded"
+                        <label htmlFor="phone" className="block font-medium">Phone</label>
+                        <input
+                            id='phone'
                             name='altContact.phone'
+                            className="w-full border p-2 rounded"
                             onChange={handleChange}
                             value={form.altContact.phone}
+                            autoComplete="off"
                         />
-                        <label className="block font-medium">Address</label>
-                        <input className="w-full border p-2 rounded"
+                        <label htmlFor="address" className="block font-medium">Address</label>
+                        <input
+                            id='address'
                             name='altContact.address'
+                            className="w-full border p-2 rounded"
                             onChange={handleChange}
                             value={form.altContact.address}
+                            autoComplete="off"
                         />
                     </div>
 
                     <div>
-                        <label className="block font-medium">Start Date</label>
+                        <label htmlFor="start" className="block font-medium">Start Date</label>
                         <input
+                            id='start'
                             type='datetime-local'
                             className="w-full border p-2 rounded"
                             name='promised.start'
                             onChange={handleChange}
                             value={form.promised.start}
+                            autoComplete="off"
                         />
-                        <label className="block font-medium">Promised Date</label>
+                        <label htmlFor="end" className="block font-medium">Promised Date</label>
                         <input
+                            id='end'
                             type='datetime-local'
                             className="w-full border p-2 rounded"
                             name='promised.by'
                             onChange={handleChange}
                             value={form.promised.by}
+                            autoComplete="off"
                         />
                     </div>
 
                     <div>
-                        <label className="block font-medium">Work Order Notes</label>
-                        <textarea className="w-full border p-2 rounded"
+                        <label htmlFor="notes" className="block font-medium">Work Order Notes</label>
+                        <textarea
+                            id='notes'
                             name='notes'
+                            className="w-full border p-2 rounded"
                             onChange={handleChange}
                             value={form.notes}
+                            autoComplete="off"
                         />
-                        <label className="block font-medium">Work Order Status</label>
-                        <select className="w-full border p-2 rounded"
+                        <label htmlFor="status" className="block font-medium">Work Order Status</label>
+                        <select
+                            id='status'
                             name='state'
+                            className="w-full border p-2 rounded"
                             onChange={handleChange}
                             value={form.state}
+                            autoComplete="off"
                         >
                             <option>OPEN</option>
                             <option>ON HOLD</option>

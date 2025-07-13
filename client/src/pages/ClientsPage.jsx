@@ -84,6 +84,7 @@ const filteredClients = clients.filter(client => {
                 <div className='flex justify-center max-h-10'>
                     <p className='text-xl p-1'>Search</p>
                     <input
+                    id='search'
                     type='text'
                     placeholder='Name, number, or Address...'
                     value={searchTerm}

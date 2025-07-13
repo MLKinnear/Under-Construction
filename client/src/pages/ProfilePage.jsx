@@ -84,45 +84,53 @@ export default function ProfilePage() {
                     <label className="block">
                     <span>Name</span>
                     <input
+                        id='name'
                         name="name"
                         value={form.name}
                         onChange={handleChange}
                         required
                         className="w-full p-2 border rounded mt-1"
+                        autoComplete='off'
                     />
                     </label>
 
                     <label className="block">
                     <span>Email</span>
                     <input
+                        id='email'
                         name="email"
                         type="email"
                         value={form.email}
                         onChange={handleChange}
                         required
                         className="w-full p-2 border rounded mt-1"
+                        autoComplete='off'
                     />
                     </label>
 
                     <label className="block">
                     <span>New Password</span>
                     <input
+                        id='password'
                         name="password"
                         type="password"
                         value={form.password || ''}
                         onChange={handleChange}
                         className="w-full p-2 border rounded mt-1"
+                        autoComplete='off'
                     />
                     </label>
 
                     <label className="block">
                     <span>Confirm Password</span>
                     <input
+                        id='confirmPassword'
                         name="confirmPassword"
                         type="password"
                         value={form.confirmPassword || ''}
                         onChange={handleChange}
                         className="w-full p-2 border rounded mt-1"
+                        autoComplete='off'
                     />
                     </label>
 

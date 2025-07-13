@@ -5,7 +5,13 @@ export default function ClientForm({ onSuccess, onCancel }) {
     const [client, setClient] = useState({
         name: '',
         phone: '',
-        address: { street: '', city: '', postalCode: '', country: ''}
+        email: '',
+        address: {
+            street: '',
+            city: '',
+            postalCode: '',
+            province: '',
+            country: ''}
     });
     const [saving, setSaving] = useState(false);
 
@@ -42,105 +48,121 @@ export default function ClientForm({ onSuccess, onCancel }) {
             <form onSubmit={handleSubmit} className='m-8 p-5 shadow-lg rounded-lg space-y-4 bg-white'>
                 <div className="grid grid-cols-3 gap-2">
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="name" className="block">
                             <span>Name</span>
                             <input
+                                id='name'
                                 name="name"
                                 type='text'
                                 value={client.name}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>
                     </div>
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="phone" className="block">
                             <span>Phone</span>
                             <input
+                                id='phone'
                                 name="phone"
                                 type='tel'
                                 value={client.phone}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>
                     </div>
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="email" className="block">
                             <span>Email</span>
                             <input
+                                id='email'
                                 name="email"
                                 type='text'
                                 value={client.email}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>
                     </div>
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="street" className="block">
                             <span>Street</span>
                             <input
+                                id='street'
                                 name="address.street"
                                 type='text'
                                 value={client.address.street}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>
                     </div>
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="city" className="block">
                             <span >City</span>
                             <input
+                                id='city'
                                 name="address.city"
                                 type='text'
                                 value={client.address.city}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>
                     </div>
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="postalCode" className="block">
                             <span>Postal Code</span>
                             <input
+                                id='postalCode'
                                 name="address.postalCode"
                                 type='text'
                                 value={client.address.postalCode}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>
                     </div>
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="province" className="block">
                             <span>Province</span>
                             <input
+                                id='province'
                                 name="address.province"
                                 type='text'
                                 value={client.address.province}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>
                     </div>
                     <div className="col-span-3 sm:col-span-1">
-                        <label className="block">
+                        <label htmlFor="country" className="block">
                             <span>Country</span>
                             <input
+                                id='country'
                                 name="address.country"
                                 type='text'
                                 value={client.address.country}
                                 onChange={handleChange}
                                 required
+                                autoComplete="off"
                                 className='w-full p-2 border rounded mt-1'
                             />
                         </label>

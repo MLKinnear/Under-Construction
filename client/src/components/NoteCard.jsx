@@ -22,12 +22,14 @@ export default function NoteCard({ note, isManager, onUpdate, onDelete }) {
             {editing ? (
                 <>
                     <input
+                        id='description'
                         name="description"
                         value={data.description}
                         onChange={handleChange}
                         className="w-full border rounded mb-2 p-2"
                     />
                     <textarea
+                        id='content'
                         name="content"
                         value={data.content}
                         onChange={handleChange}
@@ -36,6 +38,7 @@ export default function NoteCard({ note, isManager, onUpdate, onDelete }) {
                     <div className="flex space-x-4 mb-2">
                         <label className="inline-flex items-center">
                         <input
+                            id='workerVisible'
                             type="checkbox"
                             name="showToWorkers"
                             checked={data.showToWorkers}
@@ -46,6 +49,7 @@ export default function NoteCard({ note, isManager, onUpdate, onDelete }) {
                         </label>
                         <label className="inline-flex items-center">
                         <input
+                            id='pinned'
                             type="checkbox"
                             name="pinned"
                             checked={data.pinned}

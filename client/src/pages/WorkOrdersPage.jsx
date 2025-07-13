@@ -62,6 +62,7 @@ export default function WorkOrdersPage() {
                     <div className='flex items-center space-x-2'>
                         <p className='text-xl'>Filter:</p>
                         <select
+                            id='filter'
                             value={stateFilter}
                             onChange={e => setStateFilter(e.target.value)}
                             className='p-2 border rounded'
@@ -72,6 +73,7 @@ export default function WorkOrdersPage() {
                         </select>
                     </div>
                     <input
+                        id='search'
                         type='text'
                         placeholder='client name or work order #'
                         value={searchTerm}

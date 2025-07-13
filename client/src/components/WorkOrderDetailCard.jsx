@@ -57,6 +57,7 @@ export default function WorkOrderDetailCard({
                     <div>
                         <label className="block font-medium">State</label>
                         <select
+                        id='filter'
                         className="w-full border p-2 rounded"
                         value={details.state}
                         onChange={e => setDetails(d => ({ ...d, state: e.target.value }))}
@@ -69,6 +70,7 @@ export default function WorkOrderDetailCard({
                     <div>
                         <label className="block font-medium">Alt Contact Name</label>
                         <input
+                        id='name'
                         type="text"
                         className="w-full border p-2 rounded"
                         value={details.altContact.name || ''}
@@ -80,6 +82,7 @@ export default function WorkOrderDetailCard({
                     <div>
                         <label className="block font-medium">Alt Contact Phone</label>
                         <input
+                        id='phone'
                         type="text"
                         className="w-full border p-2 rounded"
                         value={details.altContact.phone || ''}
@@ -91,6 +94,7 @@ export default function WorkOrderDetailCard({
                     <div>
                         <label className="block font-medium">Alt Contact Address</label>
                         <input
+                        id='address'
                         type="text"
                         className="w-full border p-2 rounded"
                         value={details.altContact.address || ''}
@@ -102,6 +106,7 @@ export default function WorkOrderDetailCard({
                     <div>
                         <label className="block font-medium">Start Date</label>
                         <input
+                        id='start'
                         type="datetime-local"
                         className="w-full border p-2 rounded"
                         value={toInputDateTime(details.promised.start)}
@@ -113,6 +118,7 @@ export default function WorkOrderDetailCard({
                     <div>
                         <label className="block font-medium">Promised By</label>
                         <input
+                        id='end'
                         type="datetime-local"
                         className="w-full border p-2 rounded"
                         value={toInputDateTime(details.promised.by)}
@@ -124,6 +130,7 @@ export default function WorkOrderDetailCard({
                     <div>
                         <label className="block font-medium">Notes</label>
                         <textarea
+                        id='note'
                         className="w-full border p-2 rounded"
                         value={details.notes}
                          onChange={e => setDetails(d => ({ ...d, notes: e.target.value }))}

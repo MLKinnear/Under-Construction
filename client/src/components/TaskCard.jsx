@@ -54,13 +54,15 @@ export default function TaskCard({
         <div className="border p-4 rounded bg-white mb-4">
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <label>Description</label>
+                    <label htmlFor="description">Description</label>
                     <input
+                        id="description"
                         className="w-full"
                         disabled={!fe.description}
                         value={localTask.description}
                         onChange={e => handleFieldChange('description', e.target.value)}
                         onBlur={() => setShowError(!isDescriptionValid)}
+                        autoComplete="off"
                     />
                     {showError && (
                         <p className="text-red-600 text-sm mt-1">
@@ -69,47 +71,55 @@ export default function TaskCard({
                     )}
                 </div>
                 <div>
-                    <label>Time Estimate (hrs)</label>
+                    <label htmlFor="duration">Time Estimate (hrs)</label>
                     <input
+                        id="duration"
                         type="number"
                         className="w-full"
                         disabled={!fe.timeEstimate}
                         value={localTask.timeEstimate}
                         onChange={e => handleFieldChange('timeEstimate', e.target.value)}
+                        autoComplete="off"
                     />
                 </div>
             </div>
 
             <div className="mt-2">
-                <label>Note</label>
+                <label htmlFor="note">Note</label>
                 <textarea
+                    id="note"
                     className="w-full"
                     disabled={!fe.notes}
                     value={localTask.notes || ''}
                     onChange={e => handleFieldChange('notes', e.target.value)}
+                    autoComplete="off"
                     />
             </div>
 
             <div className="flex gap-4 mt-2">
                 <div>
-                    <label>Status</label>
+                    <label htmlFor="status">Status</label>
                     <select
+                        id="status"
                         className="block"
                         disabled={!fe.state}
                         value={localTask.state}
                         onChange={e => handleFieldChange('state', e.target.value)}
+                        autoComplete="off"
                     >
                         {['OPEN','ON HOLD','IN PROGRESS','IN REVIEW','COMPLETED']
                         .map(s => <option key={s}>{s}</option>)}
                     </select>
                 </div>
                 <div>
-                    <label>Assigned To</label>
+                    <label htmlFor="assignedTo">Assigned To</label>
                     {fe.assignedTo ? (
                     <select
+                        id="assignedTo"
                         className="block"
                         disabled={!fe.assignedTo}
                         value={getAssignedId(localTask.assignedTo)}
+                        autoComplete="off"
                         onChange={e =>
                         handleFieldChange(
                             'assignedTo',
