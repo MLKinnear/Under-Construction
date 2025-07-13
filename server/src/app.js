@@ -9,11 +9,23 @@ const noteRoutes = require('./routes/noteRoutes');
 
 const app = express();
 
+const allowedOrigins = [
+    'http://localhost:3000',
+    process.env.CLIENT_URL
+];
+
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: (incomingOrigin, callback) => {
+        if (!incomingOrigin || allowedOrigins.includes(incomingOrigin)) {
+            callback(null, true);
+        } else {
+            callback(new Error(`CORS policy: blocked origin ${incomingOrigin}`));
+        }
+    },
     methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-    allowedHeaders: ['Content-Type','Authorization']
-}))
+    allowedHeaders: ['Content-Type','Authorization'],
+    credentials: true
+}));
 
 app.use(express.json());
 
