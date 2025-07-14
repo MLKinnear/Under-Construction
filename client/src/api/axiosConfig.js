@@ -1,14 +1,19 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+const baseURL = import.meta.env.VITE_API_URL;
+if (!baseURL) {
+    throw new Error ('VITE_API_URL is not defined!');
+}
 
-axios.interceptors.request.use(config => {
+const api = axios.create({ baseURL, withCredentials: true });
+
+api.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 }, error => Promise.reject(error));
 
-axios.interceptors.response.use(
+api.interceptors.response.use(
     response => response,
     error => {
         const status = error.response?.status;
@@ -24,4 +29,4 @@ axios.interceptors.response.use(
     }
 );
 
-export default axios;
+export default api;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Base -->
+  <rect x="4" y="26" width="24" height="4" fill="#444"/>
+  <!-- Cone Body -->
+  <polygon points="8,26 24,26 18,8 14,8" fill="#E67E22" stroke="#000" stroke-width="1"/>
+  <!-- Stripe 1 -->
+  <polygon points="12,20 20,20 18,16 14,16" fill="#FFF" stroke="#000" stroke-width="1"/>
+  <!-- Stripe 2 -->
+  <polygon points="13,23 19,23 17,20 15,20" fill="#FFF" stroke="#000" stroke-width="1"/>
+</svg>
