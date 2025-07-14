@@ -31,13 +31,13 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 
-app.use('/users', protect, userRoutes);
+app.use('/api/users', protect, userRoutes);
 
-app.use('/clients', clientRoutes);
+app.use('/api/clients', clientRoutes);
 
-app.use('/workorders', protect, authorize('worker', 'manager'), workorderRoutes);
+app.use('/api/workorders', protect, authorize('worker', 'manager'), workorderRoutes);
 
-app.use('/notes', noteRoutes);
+app.use('/api/notes', noteRoutes);
 
 app.listen(5000, () => console.log('API listening on port 5000'));
 
