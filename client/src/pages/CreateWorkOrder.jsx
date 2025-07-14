@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import TaskCard from '../components/TaskCard';
 import NewTaskSection from '../components/NewTaskSection';
@@ -24,12 +24,12 @@ export default function CreateWorkOrder() {
     const [nextNumber, setNextNumber] = useState(null);
 
     useEffect(() => {
-        axios.get(`/api/clients/${id}`, { headers:{ Authorization:`Bearer ${token}` }})
+        api.get(`/api/clients/${id}`, { headers:{ Authorization:`Bearer ${token}` }})
             .then(r => setClient(r.data));
     }, [id, token]);
 
     useEffect(() => {
-        axios.get('/api/users/workers', { headers:{ Authorization:`Bearer ${token}` }})
+        api.get('/api/users/workers', { headers:{ Authorization:`Bearer ${token}` }})
             .then(res => {
             setWorkers(Array.isArray(res.data.data) ? res.data.data : []);
             })
@@ -37,13 +37,13 @@ export default function CreateWorkOrder() {
     }, [token]);
 
     useEffect(() => {
-        axios.get(`/api/clients/${id}`, {headers: { Authorization: `Bearer ${token}`}})
+        api.get(`/api/clients/${id}`, {headers: { Authorization: `Bearer ${token}`}})
         .then(res => setClient(res.data))
         .catch(err => console.error('Failed to load client', err));
     }, [id, token]);
 
     useEffect(() => {
-        axios.get('/api/workorders/next-number', { headers: { Authorization: `Bearer ${token}` }})
+        api.get('/api/workorders/next-number', { headers: { Authorization: `Bearer ${token}` }})
         .then(res => setNextNumber(res.data.next))
         .catch(err => console.error('Could not load next WO number', err));
     },[token])
@@ -60,7 +60,7 @@ export default function CreateWorkOrder() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        await axios.post('/api/workorders', { ...form, number: nextNumber }, {
+        await api.post('/api/workorders', { ...form, number: nextNumber }, {
             headers: { Authorization: `Bearer ${token}` }
         });
         navigate(`/clients/${id}`);

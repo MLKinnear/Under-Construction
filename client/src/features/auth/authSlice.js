@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from '../../utils/axiosConfig'
+import api from '../../api/axiosConfig'
 
 export const registerUser = createAsyncThunk(
     'auth/register',
     async ( userData, {rejectWithValue}) => {
         try{
-            const res = await axios.post('/auth/register', userData)
+            const res = await api.post('/auth/register', userData)
             return res.data
         } catch (err){
             if (err.response && err.response.data && err.response.data.message){
@@ -20,7 +20,7 @@ export const loginUser = createAsyncThunk(
     'auth/login',
     async ({ email, password }, { rejectWithValue }) => {
         try{
-            const { data } = await axios.post('/auth/login', { email, password });
+            const { data } = await api.post('/auth/login', { email, password });
             localStorage.setItem('token', data.token);
             return data;
         } catch (err) {
@@ -51,7 +51,7 @@ const authSlice = createSlice({
             state.token = null;
             state.role = null;
             localStorage.clear();
-            delete axios.defaults.headers.common['Authorization'];
+            delete api.defaults.headers.common['Authorization'];
         },
     },
             extraReducers: builder => {
@@ -69,7 +69,7 @@ const authSlice = createSlice({
                     localStorage.setItem('token', action.payload.token)
                     localStorage.setItem('user', JSON.stringify(action.payload.user))
                     localStorage.setItem('role', action.payload.role)
-                    axios.defaults.headers.common['Authorization'] =
+                    api.defaults.headers.common['Authorization'] =
                         `Bearer ${action.payload.token}`
                 })
                 .addCase(registerUser.rejected, (state, action) => {
@@ -89,7 +89,7 @@ const authSlice = createSlice({
                     localStorage.setItem('token', action.payload.token)
                     localStorage.setItem('user', JSON.stringify(action.payload.user))
                     localStorage.setItem('role', action.payload.role)
-                    axios.defaults.headers.common['Authorization'] =
+                    api.defaults.headers.common['Authorization'] =
                     `Bearer ${action.payload.token}`
                 })
                 .addCase(loginUser.rejected, (state, action) => {

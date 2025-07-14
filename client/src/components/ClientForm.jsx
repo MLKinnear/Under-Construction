@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from '../api/axiosConfig';
 
 export default function ClientForm({ onSuccess, onCancel }) {
     const [client, setClient] = useState({
@@ -30,7 +30,7 @@ export default function ClientForm({ onSuccess, onCancel }) {
         setSaving(true);
         try{
             const token = localStorage.getItem('token');
-            const { data } = await axios.post ('/api/clients', client,
+            const { data } = await api.post ('/api/clients', client,
                 {headers: { Authorization: `Bearer ${token}`}}
             );
             onSuccess(data);

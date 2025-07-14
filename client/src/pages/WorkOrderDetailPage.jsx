@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import WorkOrderDetailCard from '../components/WorkOrderDetailCard';
@@ -25,7 +25,7 @@ export default function WorkOrderDetailPage() {
     const fetchOrder = useCallback(async () => {
         setLoading(true);
         try{
-            const { data } = await axios.get(`/api/workorders/${id}`, {
+            const { data } = await api.get(`/api/workorders/${id}`, {
                 headers: { Authorization: `Bearer ${token}`}
             });
             setOrder(data);
@@ -48,7 +48,7 @@ export default function WorkOrderDetailPage() {
         if (userRole === 'manager') {
             (async function fetchWorkers() {
             try {
-                const res = await axios.get('/api/users/workers', {
+                const res = await api.get('/api/users/workers', {
                 headers: { Authorization: `Bearer ${token}` }
                 });
                 setWorkers(Array.isArray(res.data.data) ? res.data.data : []);
@@ -67,7 +67,7 @@ export default function WorkOrderDetailPage() {
                 notes: details.notes,
                 state: details.state,
             };
-            await axios.put(`/api/workorders/${id}`, payload, {
+            await api.put(`/api/workorders/${id}`, payload, {
                 headers: { Authorization: `Bearer ${token}`},
             });
             setIsEditing(false);
@@ -82,7 +82,7 @@ export default function WorkOrderDetailPage() {
             return;
         }
         try {
-            await axios.delete(`/api/workorders/${id}/tasks/${idx}`,
+            await api.delete(`/api/workorders/${id}/tasks/${idx}`,
                 { headers: { Authorization: `Bearer ${token}` },
         });
             fetchOrder();
@@ -92,7 +92,7 @@ export default function WorkOrderDetailPage() {
     };
 
     const handleAddTask = async newTask => {
-        await axios.post(`/api/workorders/${id}/tasks`,
+        await api.post(`/api/workorders/${id}/tasks`,
             {
                 description: newTask.description,
                 timeEstimate: newTask.timeEstimate,
@@ -115,7 +115,7 @@ export default function WorkOrderDetailPage() {
             assignedTo: updatedTask.assignedTo || null,
         };
         try{
-            await axios.put(`/api/workorders/${id}/tasks/${idx}`,
+            await api.put(`/api/workorders/${id}/tasks/${idx}`,
                 payload,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

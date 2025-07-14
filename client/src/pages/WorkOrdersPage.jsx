@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import { Squares2X2Icon, Bars4Icon } from '@heroicons/react/24/outline';
 import WorkOrderCard from '../components/WorkOrderCard';
 
@@ -14,7 +14,7 @@ export default function WorkOrdersPage() {
         async function loadWorkOrders() {
             try {
                 const token = localStorage.getItem('token');
-                const { data } = await axios.get('/api/workorders', {
+                const { data } = await api.get('/api/workorders', {
                         headers: { Authorization: `Bearer ${token}`}
                 });
                 setOrders(data);

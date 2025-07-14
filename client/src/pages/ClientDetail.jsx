@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 import WorkOrderCard from '../components/WorkOrderCard';
 
 export default function ClientDetail() {
@@ -19,7 +19,7 @@ export default function ClientDetail() {
         async function loadClient() {
             try{
                 const token = localStorage.getItem('token');
-                const { data } = await axios.get(`/api/clients/${id}`, {
+                const { data } = await api.get(`/api/clients/${id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setClient(data);
@@ -42,7 +42,7 @@ export default function ClientDetail() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        axios.get(`/api/workorders/clients/${id}`, { headers: { Authorization: `Bearer ${token}`} })
+        api.get(`/api/workorders/clients/${id}`, { headers: { Authorization: `Bearer ${token}`} })
             .then(res => {
             const withClient = res.data.map(o => ({ ...o, client }));
             setOrders(withClient);
@@ -67,7 +67,7 @@ export default function ClientDetail() {
         setSaving(true);
         try {
             const token = localStorage.getItem('token');
-            const { data: updated } = await axios.put(`/api/clients/${id}`,
+            const { data: updated } = await api.put(`/api/clients/${id}`,
                 formData,
                 { headers: { Authorization: `Bearer ${token}`}
             });
