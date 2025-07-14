@@ -14,6 +14,8 @@ import PrivateRoute from './components/PrivateRoute'
 import NavBar from './components/NavBar'
 import logo from './assets/underconstructionlogo.png'
 
+console.log('VITE_API_URL →', import.meta.env.VITE_API_URL);
+
 function App() {
   return (
     <div>
