@@ -14,7 +14,7 @@ export default function WorkOrdersPage() {
         async function loadWorkOrders() {
             try {
                 const token = localStorage.getItem('token');
-                const { data } = await api.get('/api/workorders', {
+                const { data } = await api.get('/workorders', {
                         headers: { Authorization: `Bearer ${token}`}
                 });
                 setOrders(data);

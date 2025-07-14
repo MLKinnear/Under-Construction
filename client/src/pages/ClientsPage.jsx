@@ -16,7 +16,7 @@ export default function ClientsPage() {
         async function loadClients(){
         try{
             const token = localStorage.getItem('token');
-            const { data } = await api.get('/api/clients', {
+            const { data } = await api.get('/clients', {
                 headers: { Authorization: `Bearer ${token}`}
             });
             setClients(data);

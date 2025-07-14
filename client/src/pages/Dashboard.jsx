@@ -12,7 +12,7 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchNotes = async () => {
         try {
-            const { data } = await api.get('/api/notes', {
+            const { data } = await api.get('/notes', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotes(data);
@@ -28,7 +28,7 @@ export default function Dashboard() {
 
     const createNote = async noteData => {
         try {
-            const { data } = await api.post('/api/notes', noteData, {
+            const { data } = await api.post('/notes', noteData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotes(prev => [data, ...prev]);
@@ -39,7 +39,7 @@ export default function Dashboard() {
 
     const updateNote = async (id, noteData) => {
         try {
-            const { data } = await api.put(`/api/notes/${id}`, noteData, {
+            const { data } = await api.put(`/notes/${id}`, noteData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotes(prev => prev.map(n => n._id === id ? data : n));
@@ -51,7 +51,7 @@ export default function Dashboard() {
     const deleteNote = async id => {
         if (!window.confirm('Are you sure you want to delete this note?')) return;
         try {
-            await api.delete(`/api/notes/${id}`, {
+            await api.delete(`/notes/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotes(prev => prev.filter(n => n._id !== id));

@@ -24,7 +24,7 @@ export default function CreateWorkOrder() {
     const [nextNumber, setNextNumber] = useState(null);
 
     useEffect(() => {
-        api.get(`/api/clients/${id}`, { headers:{ Authorization:`Bearer ${token}` }})
+        api.get(`/clients/${id}`, { headers:{ Authorization:`Bearer ${token}` }})
             .then(r => setClient(r.data));
     }, [id, token]);
 
@@ -37,13 +37,13 @@ export default function CreateWorkOrder() {
     }, [token]);
 
     useEffect(() => {
-        api.get(`/api/clients/${id}`, {headers: { Authorization: `Bearer ${token}`}})
+        api.get(`/clients/${id}`, {headers: { Authorization: `Bearer ${token}`}})
         .then(res => setClient(res.data))
         .catch(err => console.error('Failed to load client', err));
     }, [id, token]);
 
     useEffect(() => {
-        api.get('/api/workorders/next-number', { headers: { Authorization: `Bearer ${token}` }})
+        api.get('/workorders/next-number', { headers: { Authorization: `Bearer ${token}` }})
         .then(res => setNextNumber(res.data.next))
         .catch(err => console.error('Could not load next WO number', err));
     },[token])
@@ -60,7 +60,7 @@ export default function CreateWorkOrder() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        await api.post('/api/workorders', { ...form, number: nextNumber }, {
+        await api.post('/workorders', { ...form, number: nextNumber }, {
             headers: { Authorization: `Bearer ${token}` }
         });
         navigate(`/clients/${id}`);

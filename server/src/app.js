@@ -33,11 +33,11 @@ app.use('/api/auth', authRoutes);
 
 app.use('/api/users', protect, userRoutes);
 
-app.use('/api/clients', clientRoutes);
+app.use('/clients', clientRoutes);
 
-app.use('/api/workorders', protect, authorize('worker', 'manager'), workorderRoutes);
+app.use('/workorders', protect, authorize('worker', 'manager'), workorderRoutes);
 
-app.use('/api/notes', noteRoutes);
+app.use('/notes', noteRoutes);
 
 app.listen(5000, () => console.log('API listening on port 5000'));
 

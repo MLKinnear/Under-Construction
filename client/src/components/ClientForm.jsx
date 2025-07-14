@@ -30,7 +30,7 @@ export default function ClientForm({ onSuccess, onCancel }) {
         setSaving(true);
         try{
             const token = localStorage.getItem('token');
-            const { data } = await api.post ('/api/clients', client,
+            const { data } = await api.post ('/clients', client,
                 {headers: { Authorization: `Bearer ${token}`}}
             );
             onSuccess(data);

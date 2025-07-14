@@ -25,7 +25,7 @@ export default function WorkOrderDetailPage() {
     const fetchOrder = useCallback(async () => {
         setLoading(true);
         try{
-            const { data } = await api.get(`/api/workorders/${id}`, {
+            const { data } = await api.get(`/workorders/${id}`, {
                 headers: { Authorization: `Bearer ${token}`}
             });
             setOrder(data);
@@ -67,7 +67,7 @@ export default function WorkOrderDetailPage() {
                 notes: details.notes,
                 state: details.state,
             };
-            await api.put(`/api/workorders/${id}`, payload, {
+            await api.put(`/workorders/${id}`, payload, {
                 headers: { Authorization: `Bearer ${token}`},
             });
             setIsEditing(false);
@@ -82,7 +82,7 @@ export default function WorkOrderDetailPage() {
             return;
         }
         try {
-            await api.delete(`/api/workorders/${id}/tasks/${idx}`,
+            await api.delete(`/workorders/${id}/tasks/${idx}`,
                 { headers: { Authorization: `Bearer ${token}` },
         });
             fetchOrder();
@@ -92,7 +92,7 @@ export default function WorkOrderDetailPage() {
     };
 
     const handleAddTask = async newTask => {
-        await api.post(`/api/workorders/${id}/tasks`,
+        await api.post(`/workorders/${id}/tasks`,
             {
                 description: newTask.description,
                 timeEstimate: newTask.timeEstimate,
@@ -115,7 +115,7 @@ export default function WorkOrderDetailPage() {
             assignedTo: updatedTask.assignedTo || null,
         };
         try{
-            await api.put(`/api/workorders/${id}/tasks/${idx}`,
+            await api.put(`/workorders/${id}/tasks/${idx}`,
                 payload,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
