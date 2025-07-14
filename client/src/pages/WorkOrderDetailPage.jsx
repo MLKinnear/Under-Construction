@@ -48,7 +48,7 @@ export default function WorkOrderDetailPage() {
         if (userRole === 'manager') {
             (async function fetchWorkers() {
             try {
-                const res = await api.get('/api/users/workers', {
+                const res = await api.get('/users/workers', {
                 headers: { Authorization: `Bearer ${token}` }
                 });
                 setWorkers(Array.isArray(res.data.data) ? res.data.data : []);

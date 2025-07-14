@@ -29,7 +29,7 @@ export default function CreateWorkOrder() {
     }, [id, token]);
 
     useEffect(() => {
-        api.get('/api/users/workers', { headers:{ Authorization:`Bearer ${token}` }})
+        api.get('/users/workers', { headers:{ Authorization:`Bearer ${token}` }})
             .then(res => {
             setWorkers(Array.isArray(res.data.data) ? res.data.data : []);
             })

@@ -12,7 +12,7 @@ export default function ProfilePage() {
     useEffect(() => {
         async function load() {
             try{
-                const { data } = await api.get('/api/users/profile');
+                const { data } = await api.get('/users/profile');
                 setUser(data);
                 setForm({ name: data.name, email: data.email });
             } catch (err) {
@@ -42,7 +42,7 @@ export default function ProfilePage() {
                 email: form.email,
                 ...(form.password ? { password: form.password } : {})
             };
-            await api.put('/api/users/profile', payload);
+            await api.put('/users/profile', payload);
             alert('Profile updated');
             setUser(u => ({ ...u, name: form.name, email: form.email }));
             setEditing(false);
@@ -60,7 +60,7 @@ export default function ProfilePage() {
         if (!window.confirm('Generate a new manager key?')) return;
         setRotating(true);
         try {
-            const { data } = await api.put('/api/users/profile/rotate-key');
+            const { data } = await api.put('/users/profile/rotate-key');
             setUser(u => ({ ...u, accessKey: data.accessKey}));
             alert('New key generated');
         } catch (err) {

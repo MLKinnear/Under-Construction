@@ -31,7 +31,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 
-app.use('/api/users', protect, userRoutes);
+app.use('/users', protect, userRoutes);
 
 app.use('/clients', clientRoutes);
 
