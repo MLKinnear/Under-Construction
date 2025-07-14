@@ -1,4 +1,4 @@
-jest.mock('../utils/axiosConfig', () => {
+jest.mock('../api/axiosConfig.js', () => {
     const axiosMock = {};
     ['get','post','put','delete'].forEach((m) => {
         axiosMock[m] = jest.fn();
