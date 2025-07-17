@@ -136,9 +136,7 @@ export default function TaskCard({
                     </select>
                     ) : (
                     <p className="mt-1">
-                        {typeof task.assignedTo === 'object'
-                        ? task.assignedTo.name
-                        : '—'}
+                        {task.assignedTo?.name || '— Unassigned —'}
                     </p>
                     )}
                 </div>
