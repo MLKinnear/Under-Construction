@@ -8,7 +8,7 @@ exports.getNotes = async (req, res) => {
         if (req.user.role === 'manager' ) {
             filter.createdBy = req.user._id;
         } else {
-            if (!res.user.manager) {
+            if (!req.user.manager) {
                 return res
                     .status(400)
                     .json({ msg: 'No manager assigned to this worker.'});
@@ -23,6 +23,7 @@ exports.getNotes = async (req, res) => {
             .sort({ pinned: -1, createdAt: -1});
         res.json(notes);
         } catch (err) {
+            console.error('Error in getNotes:', err);
             res.status(500).json({ msg: err.msg});
         }
 };
