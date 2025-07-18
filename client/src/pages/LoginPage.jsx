@@ -17,7 +17,6 @@ export default function LoginPage() {
             await dispatch(loginUser({ email, password})).unwrap()
             navigate('/dashboard')
         } catch (errMsg) {
-            //error in slice
             alert(errMsg)
         }
     }

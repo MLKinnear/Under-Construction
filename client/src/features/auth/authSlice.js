@@ -61,16 +61,8 @@ const authSlice = createSlice({
                     state.isLoading = true
                     state.error = null
                 })
-                .addCase(registerUser.fulfilled, (state, action) => {
+                .addCase(registerUser.fulfilled, (state) => {
                     state.isLoading = false
-                    state.user = action.payload.user
-                    state.token = action.payload.token
-                    state.role = action.payload.role
-                    localStorage.setItem('token', action.payload.token)
-                    localStorage.setItem('user', JSON.stringify(action.payload.user))
-                    localStorage.setItem('role', action.payload.role)
-                    api.defaults.headers.common['Authorization'] =
-                        `Bearer ${action.payload.token}`
                 })
                 .addCase(registerUser.rejected, (state, action) => {
                     state.isLoading = false

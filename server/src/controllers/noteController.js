@@ -3,14 +3,28 @@ const Note = require('../models/Note');
 //GET /api/notes
 exports.getNotes = async (req, res) => {
     try {
-        const filter = req.user.role === 'worker'
-            ? { showToWorkers: true }: {};
+        let filter = {};
+
+        if (req.user.role === 'manager' ) {
+            filter.createdBy = req.user._id;
+        } else {
+            if (!res.user.manager) {
+                return res
+                    .status(400)
+                    .json({ msg: 'No manager assigned to this worker.'});
+            }
+
+        filter = {
+            createdBy: req.user.manager,
+            showToWorkers: true
+        };
+        }
         const notes = await Note.find(filter)
-            .sort({ pinned: -1, createdAt: -1 });
+            .sort({ pinned: -1, createdAt: -1});
         res.json(notes);
-    } catch (err) {
-        res.status(500).json({ msg: err.message });
-    }
+        } catch (err) {
+            res.status(500).json({ msg: err.msg});
+        }
 };
 
 //POST /api/notes
@@ -38,6 +52,10 @@ exports.updateNote = async (req, res) => {
         if (!note)
         return res.status(404).json({ msg: 'Note not found' });
 
+        if (note.createdBy.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: 'Forbidden: not your note' });
+        }
+
         ['description','content','showToWorkers','pinned']
         .forEach(field => {
         if (req.body[field] !== undefined) note[field] = req.body[field];
@@ -53,10 +71,16 @@ exports.updateNote = async (req, res) => {
 exports.deleteNote = async (req, res) => {
     try {
         const { id } = req.params;
-        const deleted = await Note.findByIdAndDelete(id);
-        if (!deleted) {
+        const note = await Note.findById(id);
+        if (!note) {
         return res.status(404).json({ msg: 'Note not found' });
         }
+
+        if (note.createdBy.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ msg: 'Forbidden: not your note' });
+        }
+
+        await note.remove();
         return res.json({ msg: 'Note removed' });
     } catch (err) {
         console.error('Error in deleteNote:', err);

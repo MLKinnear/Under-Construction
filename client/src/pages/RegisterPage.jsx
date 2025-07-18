@@ -33,7 +33,7 @@ export default function RegisterPage() {
         }
         try{
             await dispatch(registerUser({ name, email, password, role, managerKey, productKey})).unwrap()
-            navigate('/dashboard')
+            navigate('/login')
         } catch{
             // slice.error will display
         }
